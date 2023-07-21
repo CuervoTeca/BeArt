@@ -1,5 +1,6 @@
 #custom-sidebar-div {
   height: 100%;
+  width: auto;
   color: black;
 }
 
@@ -27,6 +28,6 @@
 #sidebar-logo {
   height: 30%;
   width: 80%;
-  margin: 50% 10% 10% 10%;
+  margin: 0% 5% 10% 10%;
 }
   

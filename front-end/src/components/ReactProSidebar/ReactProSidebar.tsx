@@ -2,7 +2,7 @@ import './ReactProSidebar.css';
 import React from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { IonIcon } from '@ionic/react';
-import { logOutOutline, homeOutline, restaurantOutline, gameControllerOutline, heartOutline, serverOutline } from 'ionicons/icons';
+import { logOutOutline, homeOutline, restaurantOutline, gameControllerOutline, heartOutline, serverOutline, people, construct, person } from 'ionicons/icons';
 
 interface ContainerProps { }
 
@@ -37,7 +37,13 @@ const ReactProSidebar: React.FC<ContainerProps> = () => {
             <MenuItem> Cargar back-up </MenuItem>
             <MenuItem> Restablecer </MenuItem>
           </SubMenu>
+          <SubMenu label="Usuarios" icon={<IonIcon icon={people} />}>
+            <MenuItem> Nuevo usuario </MenuItem>
+            <MenuItem> Borrar usuario </MenuItem>
+            <MenuItem> Modificar usuario </MenuItem>
+          </SubMenu>
           <hr className="sidebar-divider" />
+          <MenuItem icon={<IonIcon icon={person} />}> Perfil </MenuItem>
           <MenuItem icon={<IonIcon icon={logOutOutline} />}> Cerrar Sesion </MenuItem>
         </Menu>
         <br/>

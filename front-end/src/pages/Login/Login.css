@@ -1,0 +1,24 @@
+.LoginPass{
+    margin: 0% 45% 0% 0%;
+    font-size: x-small;    
+}
+.logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+.registrarme{ margin: 5% 0% 0% 24%;}
+
+.form-container {
+
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  }
+  
+  .ion-align-items-center {
+    margin: auto;
+    align-items: center !important;
+}

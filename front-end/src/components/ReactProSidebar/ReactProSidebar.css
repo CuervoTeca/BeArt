@@ -1,15 +1,12 @@
 #custom-sidebar-div {
   height: 100%;
-  width: auto;
+  width: 19%;
   color: black;
 }
 
 #custom-sidebar {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 #sidebar-title {
@@ -26,7 +23,7 @@
 }
 
 #sidebar-logo {
-  height: 30%;
+  height: 25%;
   width: 80%;
   margin: 0% 5% 10% 10%;
 }

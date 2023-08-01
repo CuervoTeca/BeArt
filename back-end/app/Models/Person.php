@@ -36,9 +36,9 @@ class Person extends Model
         return $this->hasOne(ContactInfo::class);
     }
 
-    // public function PersonalInfo(){
-    //     return $this->hasOne(PersonalInfo::class);
-    // }
+    public function HealthInfo(){
+        return $this->hasOne(HealthInfo::class);
+    }
 
     public function Password(){
         return $this->hasOne(Password::class);

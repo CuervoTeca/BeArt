@@ -21,16 +21,18 @@ return new class extends Migration
             $table->bigInteger('RoleID');
             $table->bigInteger('DemographicInfoID');
             $table->bigInteger('ContactInfoID');
-            $table->bigInteger('PersonalInfoID');
+            $table->bigInteger('HealthInfoID');
             $table->bigInteger('PasswordID');
             $table->timestamps();
 
             $table->foreign('RoleID')->references('RoleID')->on('Role');
             $table->foreign('DemographicInfoID')->references('DemographicInfoID')->on('Person.DemographicInfo');
             $table->foreign('ContactInfoID')->references('ContactInfoID')->on('Person.ContactInfo');
-            //$table->foreign('PersonalInfoID')->references('PersonalInfoID')->on('Person.PersonalInfo');
+            $table->foreign('HealthInfoID')->references('HealthInfoID')->on('Person.HealthInfo');
             $table->foreign('PasswordID')->references('PasswordID')->on('Person.Password');
         });
+
+        DB::statement('ALTER TABLE Person.Person ADD Age AS DATEDIFF(YEAR, BirthDate, GETDATE())');
     }
 
     /**

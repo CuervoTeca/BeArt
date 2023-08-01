@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonalInfo extends Model
+class HealthInfo extends Model
 {
     use HasFactory;
 
-    protected $table = 'Person.PersonalInfo';
+    protected $table = 'Person.HealthInfo';
 
     protected $filllable = [
-        'PersonalInfoID',
+        'HealthInfoID',
         'Weight',
         'Height'
     ];
 
-    public $timestamps = false;
+    public function Person(){
+        return $this->belongsTo(Person::class);
+    }
 }

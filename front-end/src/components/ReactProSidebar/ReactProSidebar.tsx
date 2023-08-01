@@ -2,7 +2,9 @@ import './ReactProSidebar.css';
 import React from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { IonIcon } from '@ionic/react';
-import { logOutOutline, homeOutline, restaurantOutline, gameControllerOutline, heartOutline, serverOutline, people, construct, person } from 'ionicons/icons';
+import { logOutOutline, homeOutline, restaurantOutline, gameControllerOutline, heartOutline, serverOutline, people, person } from 'ionicons/icons';
+import { Link } from 'react-router-dom'
+import logo from '../../images/logo.png'
 
 interface ContainerProps { }
 
@@ -14,40 +16,20 @@ const ReactProSidebar: React.FC<ContainerProps> = () => {
         <h2 id="sidebar-title">BEART</h2>
         <Menu>
         <hr className="sidebar-divider" />
-          <MenuItem icon={<IonIcon icon={homeOutline} />}> Inicio </MenuItem>
+        <Link to="/homeAdmin"><MenuItem icon={<IonIcon icon={homeOutline} />}>Inicio</MenuItem></Link>
           <h2 className="sidebar-section">Tablas</h2>
-          <SubMenu label="Platillos" icon={<IonIcon icon={restaurantOutline} />}>
-            <MenuItem> Añadir </MenuItem>
-            <MenuItem> Borrar </MenuItem>
-            <MenuItem> Modificar </MenuItem>
-          </SubMenu>
-          <SubMenu label="Adicciones" icon={<IonIcon icon={gameControllerOutline} />}>
-            <MenuItem> Añadir </MenuItem>
-            <MenuItem> Borrar </MenuItem>
-            <MenuItem> Modificar </MenuItem>
-          </SubMenu>
-          <SubMenu label="Actividades Fisicas" icon={<IonIcon icon={heartOutline} />}>
-            <MenuItem> Añadir </MenuItem>
-            <MenuItem> Borrar </MenuItem>
-            <MenuItem> Modificar </MenuItem>
-          </SubMenu>
+          <Link to="/dishes"><MenuItem icon={<IonIcon icon={restaurantOutline} />}>Platillos</MenuItem></Link>
+          <Link to="/addictions"><MenuItem icon={<IonIcon icon={gameControllerOutline} />}>Adicciones</MenuItem></Link>
+          <Link to="/physicalActivities"><MenuItem icon={<IonIcon icon={heartOutline} />}>Actividades Fisicas</MenuItem></Link>
           <h2 className="sidebar-section">Administracion</h2>
-          <SubMenu label="Base de datos" icon={<IonIcon icon={serverOutline} />}>
-            <MenuItem> Back-up </MenuItem>
-            <MenuItem> Cargar back-up </MenuItem>
-            <MenuItem> Restablecer </MenuItem>
-          </SubMenu>
-          <SubMenu label="Usuarios" icon={<IonIcon icon={people} />}>
-            <MenuItem> Nuevo usuario </MenuItem>
-            <MenuItem> Borrar usuario </MenuItem>
-            <MenuItem> Modificar usuario </MenuItem>
-          </SubMenu>
+          <Link to="/dataBase"><MenuItem icon={<IonIcon icon={serverOutline} />}>Base de datos</MenuItem></Link>
+          <Link to="/users"><MenuItem icon={<IonIcon icon={people} />}>Usuarios</MenuItem></Link>
           <hr className="sidebar-divider" />
-          <MenuItem icon={<IonIcon icon={person} />}> Perfil </MenuItem>
+          <Link to="/profile"><MenuItem icon={<IonIcon icon={person} />}>Perfil</MenuItem></Link>
           <MenuItem icon={<IonIcon icon={logOutOutline} />}> Cerrar Sesion </MenuItem>
         </Menu>
         <br/>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/WoW_icon.svg/1200px-WoW_icon.svg.png" alt="Logo" id="sidebar-logo" />
+        <img src={logo} alt="Logo" id="sidebar-logo" />
       </Sidebar>
     </div>
   );

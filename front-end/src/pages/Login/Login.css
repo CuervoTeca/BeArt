@@ -1,0 +1,33 @@
+.LoginPass{
+    margin: 0% 45% 0% 0%;
+    font-size: x-small;    
+    margin: 20px 0;
+}
+.logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+.registrarme{ margin: 5% 0% 0% 24%;}
+
+.form-container {
+
+  padding: 50px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  }
+  
+  .ion-align-items-center {
+    margin: auto;
+    align-items: center !important;
+}
+/* Agrega un margen vertical de 10px entre los botones */
+.button-margin {
+  margin: 18px 0;
+}
+.ion-grid.md {
+  background-image: url('public/fondoBlanco.jpg');
+
+}

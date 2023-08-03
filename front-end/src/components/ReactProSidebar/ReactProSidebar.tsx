@@ -4,7 +4,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { IonIcon } from '@ionic/react';
 import { logOutOutline, homeOutline, restaurantOutline, gameControllerOutline, heartOutline, serverOutline, people, person } from 'ionicons/icons';
 import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png'
+import logo from '../../images/BeArtLogo.svg'
 
 interface ContainerProps { }
 

@@ -9,6 +9,7 @@ import DataBase from './pages/DataBase/DataBase';
 import Profile from './pages/Profile/Profile';
 import PhysicalActivities from './pages/PhysicalActivities/PhysicalActivities';
 import HomeAdmin from './pages/HomeAdmin/HomeAdmin';
+import Login from './pages/Login/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -28,7 +29,6 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Login from './pages/Login/Login';
 
 setupIonicReact();
 
@@ -37,7 +37,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
           <Route exact path="/home">
-            <Home />
+            <Login />
           </Route>
           <Route exact path="/">
             <Redirect to="/home" />

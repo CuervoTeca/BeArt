@@ -65,7 +65,7 @@ const Login: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
-              <img src="/images/logo.png" alt="Logo" className="logo" />
+              <img src="/src/images/logo.png" alt="Logo" className="logo" />
             </IonCol>
             <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
             <div className="form-container">

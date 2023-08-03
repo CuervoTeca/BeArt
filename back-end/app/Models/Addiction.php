@@ -19,5 +19,9 @@ class Addiction extends Model
         return $this->belongsTo(Unit::class, 'UnitID', 'UnitID');
     }
 
+    public function AddictionsPerDay(){
+        return $this->hasMany(AddictionsPerDay::class, 'AddictionID', 'AddictionID');   
+    }
+
     public $timestamps = false;
 }

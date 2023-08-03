@@ -23,7 +23,7 @@ BeArt App
 
 7. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
-9. php artisan serve
+8. php artisan serve
 
 
 ### ----------Frontend------------
@@ -34,7 +34,9 @@ BeArt App
 
 3. npm install
 
-3. npm run dev
+4. npm install axios
+
+5. npm run dev
 
 
 ### -------Usar SQL SERVER---------
@@ -85,7 +87,7 @@ GO
    - Click derecho en TCP/IP
    - Click en enable y reiniciar por si acaso
 
-NOTA: Si sigue sin funcionar
+- NOTA: Si sigue sin funcionar
    - ~~-Llorar~~
    - https://www.google.com/?hl=es
    - https://chat.openai.com

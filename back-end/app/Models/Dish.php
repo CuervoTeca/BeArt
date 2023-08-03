@@ -19,5 +19,9 @@ class Dish extends Model
         return $this->hasOne(ProNutritionFactsPer100Gfile::class);
     }
 
+    public function DishesPerDay(){
+        return $this->hasMany(DishesPerDay::class, 'DishID', 'DishID');   
+    }
+
     public $timestamps = false;
 }

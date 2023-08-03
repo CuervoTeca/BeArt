@@ -20,5 +20,9 @@ class PhysicalActivity extends Model
         return $this->belongsTo(MuscleGroupID::class, 'MuscleGroupID', 'MuscleGroupID');
     }
 
+    public function AddictionsPerDay(){
+        return $this->hasMany(AddictionsPerDay::class, 'ActivityID', 'ActivityID');   
+    }
+
     public $timestamps = false;
 }

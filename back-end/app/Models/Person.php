@@ -79,4 +79,8 @@ class Person extends Model
     public function Comment(){
         return $this->hasMany(Comment::class, 'PersonID', 'PersonID');   
     }
+
+    public function Backup(){
+        return $this->hasMany(Backup::class, 'PersonID', 'PersonID');   
+    }
 }

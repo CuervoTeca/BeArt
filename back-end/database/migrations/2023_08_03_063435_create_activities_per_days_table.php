@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('Health.ActivitiesPerDay', function (Blueprint $table) {
             $table->time('Duration');
-            $table->decimal('TotalCaloriesBurned', 18, 2);
+            $table->decimal('TotalCaloriesBurned', 7, 2);
             $table->dateTime('Date');
             $table->bigInteger('PersonID');
             $table->bigInteger('ActivityID');

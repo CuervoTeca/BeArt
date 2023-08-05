@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\Person as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'Person.Person';
 
     protected $filllable = [
@@ -16,12 +21,11 @@ class Person extends Model
         'LastName2',
         'BirthDate',
         'Photo',
-        'CreationDate',
         'RoleID',
         'DemographicInfoID',
         'ContactInfoID',
         'PersonalInfoID',
-        'PasswordID',
+        'PasswordID'
     ];
 
     public function Role(){

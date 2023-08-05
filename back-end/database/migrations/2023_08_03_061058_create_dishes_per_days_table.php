@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('Health.DishesPerDay', function (Blueprint $table) {
             $table->integer('Quantity');
-            $table->decimal('TotalCalories', 18, 2);
-            $table->decimal('TotalFats', 18, 2);
-            $table->decimal('TotalCollesterol', 18, 2);
-            $table->decimal('TotalSodium', 18, 2);
-            $table->decimal('TotalFiber', 18, 2);
-            $table->decimal('TotalCarbs', 18, 2);
-            $table->decimal('TotalProteins', 18, 2);
+            $table->decimal('TotalCalories', 7, 2);
+            $table->decimal('TotalFats', 7, 2);
+            $table->decimal('TotalCollesterol', 7, 2);
+            $table->decimal('TotalSodium', 7, 2);
+            $table->decimal('TotalFiber', 7, 2);
+            $table->decimal('TotalCarbs', 7, 2);
+            $table->decimal('TotalProteins', 7, 2);
             $table->dateTime('Date');
             $table->bigInteger('PersonID');
             $table->bigInteger('DishID');

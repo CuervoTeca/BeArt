@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('LastName1', 20);
             $table->string('LastName2', 20)->nullable();
             $table->date('BirthDate');
-            $table->binary('Photo')->nullable();
-            $table->bigInteger('RoleID');
+            //$table->binary('Photo')->nullable();
+            $table->dateTime('CreatedAt')->default(DB::raw('GETDATE()'));
+            $table->dateTime('LastUpdatedAt')->default(DB::raw('GETDATE()'));
+            $table->bigInteger('RoleID')->default(1);
             $table->bigInteger('DemographicInfoID');
             $table->bigInteger('ContactInfoID');
             $table->bigInteger('HealthInfoID');
             $table->bigInteger('PasswordID');
-            $table->timestamps();
 
             $table->foreign('RoleID')->references('RoleID')->on('Role');
             $table->foreign('DemographicInfoID')->references('DemographicInfoID')->on('Person.DemographicInfo');
@@ -33,6 +34,19 @@ return new class extends Migration
         });
 
         DB::statement('ALTER TABLE Person.Person ADD Age AS DATEDIFF(YEAR, BirthDate, GETDATE())');
+
+        DB::unprepared('
+            CREATE TRIGGER tr_updatePersonLastUpdatedAtField
+                ON Person.Person
+                AFTER UPDATE
+            AS
+            BEGIN
+                UPDATE Person.Person
+                SET LastUpdatedAt = GETDATE()
+                FROM Person.Person as P
+                INNER JOIN inserted ON P.PersonID = inserted.PersonID;
+            END
+        ');
     }
 
     /**

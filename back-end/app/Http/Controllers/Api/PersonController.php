@@ -20,7 +20,7 @@ class PersonController extends Controller
             "City" => "max:25",
             "CountryID" => "required|integer",
             "PhoneNumber" => "required|max:11",
-            "EmailAddress" => "email|required|max:50",
+            "EmailAddress" => "email|required|max:50|unique:sqlsrv.Person.ContactInfo",
             "FacebookName" => "max:50",
             "Instagram" => "max:20",
             "Twitter" => "max:20",

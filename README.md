@@ -13,17 +13,21 @@ BeArt App
 
 2. Clonar repo
 
-3. cd .\back-end\
+3. Abre xampp, en la fila de Apache da click en config y abre php.ini
 
-4. composer install
+4. Busca extension=zip y borra el ; del inicio
 
-5. copiar .env.example y llamarlo .env
+5. cd .\back-end\
 
-6. php artisan key:generate
+6. composer install
 
-7. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+7. Hacer una copia de .env.example y llamarlo .env
 
-8. php artisan serve
+8. php artisan key:generate
+
+9. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+10. php artisan serve
 
 
 ### ----------Frontend------------

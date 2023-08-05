@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Person;
+use App\Models\ContactInfo;
+use App\Models\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -59,7 +61,46 @@ class PersonController extends Controller
     }
 
     public function login(Request $request){
+        $request->validate([
+            'EmailAddress' => 'required|email|max:50',
+            'Password' => 'required'
+        ]);
 
+        $contactInfo = ContactInfo::where('EmailAddress', '=', $request->EmailAddress)->first();
+        $contactInfoId = $contactInfo->ContactInfoID;
+
+        $person = Person::where('ContactInfoID', '=', $contactInfoId)->first();
+                
+        $passwordId = $person->PasswordID;
+        $password = Password::where('PasswordID', '=', $passwordId)->first();
+        
+        if(isset($person->PersonID)){
+            if(Hash::check($request->Password, $password->PasswordHash)){
+                //Create token
+                $token = $person->createToken('auth_token')->plainTextToken;
+
+                //Everything OK
+                return response()->json([
+                    "status" => 200,
+                    "message" => "User logged in",
+                    "accessToken" => $token
+                ]);
+            }
+            else{
+                //Wrong password
+                return response()->json([
+                    "status" => 401,
+                    "message" => "Incorrect password"
+                ], 401);
+            }
+        }
+        else{
+            //User not found
+            return response()->json([
+                "status" => 404,
+                "message" => "User not found"
+            ], 404);
+        }
     }
 
     public function personProfile(){

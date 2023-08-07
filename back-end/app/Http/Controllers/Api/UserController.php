@@ -87,7 +87,7 @@ class UserController extends Controller
                     "status" => 200,
                     "message" => "User logged in",
                     "accessToken" => $token
-                ]);
+                ], 200);
             } else {
                 //Wrong password
                 return response()->json([
@@ -105,10 +105,19 @@ class UserController extends Controller
     }
 
     public function userProfile(){
-
+        return response()->json([
+            "status" => 200,
+            "message" => "User profile info",
+            "accessToken" => auth()->user()
+        ], 200);
     }
 
     public function logout(){
+        auth()->user()->tokens()->delete();
 
+        return response()->json([
+            "status" => 200,
+            "message" => "User logged out"
+        ], 200);
     }
 }

@@ -113,6 +113,8 @@ class UserController extends Controller
             $procedureName = "sp_getUserProfile";
 
             $data = DB::select("EXEC $procedureName $userId");
+            // Assign the first object in the array to $dish, as DB::select always returns an array
+            $data = $data[0];
     
             return response()->json([
                 "status" => 200,

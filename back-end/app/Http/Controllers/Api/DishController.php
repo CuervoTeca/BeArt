@@ -70,7 +70,7 @@ class DishController extends Controller
             $userId = Auth::id();
     
             if (Dish::where("DishID", $dishId)->exists()) {
-                // If the dish exists, it can be updated
+                // If the dish exists, it can be shown
     
                 $procedureShowName = "sp_showDish";
                 $dish = DB::select("EXEC $procedureShowName $dishId");

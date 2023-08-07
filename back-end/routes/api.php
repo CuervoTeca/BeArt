@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //protected dishes routes
     Route::post("createDish", [DishController::class, 'createDish']);
     Route::get("listDishes", [DishController::class, 'listDishes']);
-    Route::get("showDish", [DishController::class, 'showDish']);
+    Route::get("showDish/{dishId}", [DishController::class, 'showDish']);
     Route::put("updateDish/{dishId}", [DishController::class, 'updateDish']);
     Route::delete("deleteDish/{dishId}", [DishController::class, 'deleteDish']);
 });

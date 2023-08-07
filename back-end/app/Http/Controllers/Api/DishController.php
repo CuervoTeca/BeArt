@@ -65,7 +65,33 @@ class DishController extends Controller
     }
 
     public function showDish($dishId){
-        
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+    
+            if (Dish::where("DishID", $dishId)->exists()) {
+                // If the dish exists, it can be updated
+    
+                $procedureShowName = "sp_showDish";
+                $dish = DB::select("EXEC $procedureShowName $dishId");
+    
+                if (count($dish) > 0) {
+                    // Assign the first object in the array to $dish, as DB::select always returns an array
+                    $dish = $dish[0];
+    
+                    return response()->json([
+                        "status" => 200,
+                        "message" => "Dish data",
+                        "data" => $dish
+                    ], 200);
+                } else {
+                    return response()->json([
+                        "status" => 404,
+                        "message" => "Dish not found"
+                    ], 404);
+                }
+            }
+        }
     }
 
     public function updateDish(Request $request, $dishId)

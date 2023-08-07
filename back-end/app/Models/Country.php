@@ -12,7 +12,6 @@ class Country extends Model
     protected $table = 'Demographics.Country';
 
     protected $filllable = [
-        'CountryID',
         'CountryName'
     ];
 

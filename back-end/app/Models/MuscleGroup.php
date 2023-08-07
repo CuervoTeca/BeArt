@@ -12,7 +12,6 @@ class MuscleGroup extends Model
     protected $table = 'Health.MuscleGroup';
 
     protected $filllable = [
-        'MuscleGroupID',
         'MuscleGroupName'
     ];
 

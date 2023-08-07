@@ -12,7 +12,6 @@ class NutritionFactsPer100G extends Model
     protected $table = 'Health.NutritionFactsPer100G';
 
     protected $filllable = [
-        'NutritionFactsID',
         'Calories',
         'Fats',
         'Collesterol',

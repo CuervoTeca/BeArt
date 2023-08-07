@@ -10,7 +10,6 @@ class Dish extends Model
     protected $table = 'Health.Dish';
 
     protected $filllable = [
-        'DishID',
         'DishName',
         'NutritionFactsID'
     ];

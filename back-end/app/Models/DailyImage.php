@@ -12,7 +12,6 @@ class DailyImage extends Model
     protected $table = 'Users.DailyImage';
 
     protected $filllable = [
-        'ImageID',
         'Image',
         'Date',
         'Prompt',

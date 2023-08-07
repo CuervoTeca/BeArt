@@ -12,7 +12,6 @@ class Backup extends Model
     protected $table = 'Backup';
 
     protected $filllable = [
-        'BackupID',
         'Date',
         'UserID'
     ];

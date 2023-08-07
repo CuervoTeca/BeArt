@@ -12,7 +12,6 @@ class Role extends Model
     protected $table = 'Role';
 
     protected $filllable = [
-        'RoleID',
         'RoleName',
         'Description'
     ];

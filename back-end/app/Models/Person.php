@@ -15,7 +15,6 @@ class Person extends Authenticatable
     protected $table = 'Person.Person';
 
     protected $filllable = [
-        'PersonID',
         'FirstName',
         'LastName1',
         'LastName2',

@@ -12,7 +12,6 @@ class Unit extends Model
     protected $table = 'Health.Unit';
 
     protected $filllable = [
-        'UnitID',
         'UnitName'
     ];
 

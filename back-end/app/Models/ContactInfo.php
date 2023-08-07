@@ -12,7 +12,6 @@ class ContactInfo extends Model
     protected $table = 'Users.ContactInfo';
 
     protected $filllable = [
-        'ContactInfoID',
         'PhoneNumber',
         'EmailAddress',
         'FacebookName',

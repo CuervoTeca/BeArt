@@ -12,7 +12,6 @@ class HealthInfo extends Model
     protected $table = 'Users.HealthInfo';
 
     protected $filllable = [
-        'HealthInfoID',
         'Weight',
         'Height'
     ];

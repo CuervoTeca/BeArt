@@ -12,7 +12,6 @@ class Password extends Model
     protected $table = 'Users.Password';
 
     protected $filllable = [
-        'PasswordID',
         'PasswordHash'
     ];
 

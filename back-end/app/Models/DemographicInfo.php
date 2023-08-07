@@ -10,7 +10,6 @@ class DemographicInfo extends Model
     protected $table = 'Users.DemographicInfo';
 
     protected $filllable = [
-        'DemographicInfoID',
         'City',
         'CountryID'
     ];

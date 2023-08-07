@@ -12,7 +12,6 @@ class Comment extends Model
     protected $table = 'Social.Comment';
 
     protected $filllable = [
-        'CommentID',
         'Content',
         'Date',
         'PostID',

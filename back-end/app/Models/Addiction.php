@@ -10,7 +10,6 @@ class Addiction extends Model
     protected $table = 'Health.Addiction';
 
     protected $filllable = [
-        'AddictionID',
         'AddictionName',
         'UnitID'
     ];

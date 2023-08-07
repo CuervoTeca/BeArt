@@ -12,7 +12,6 @@ class Post extends Model
     protected $table = 'Social.Post';
 
     protected $filllable = [
-        'PostID',
         'Content',
         'Date',
         'UserID',

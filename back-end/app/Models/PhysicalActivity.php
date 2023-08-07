@@ -10,7 +10,6 @@ class PhysicalActivity extends Model
     protected $table = 'Health.PhysicalActivity';
 
     protected $filllable = [
-        'ActivityID',
         'ActivityName',
         'CaloriesBurnedPerHour',
         'MuscleGroupID'

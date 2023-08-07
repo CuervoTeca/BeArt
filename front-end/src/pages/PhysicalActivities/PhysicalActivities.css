@@ -10,7 +10,38 @@
     width: 19%;
 }
 
-#div-content {
-    width: 100%;
-    background-color: blue;
+#IonGrid {
 }
+
+#IonRow {
+}
+
+#IonCard {
+}
+
+.div-content {
+    width: 100%;
+    height: 100%;
+}
+
+.RowModal {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    justify-content: center;
+}
+
+.IonPopover {
+    --backdrop-opacity: 0;
+}
+
+#Actividadestitle {
+    color: #B21DF2;
+}
+
+[data-column-id="topPhysicalActivities"].rdt_TableCol {
+    background-color: #B21DF2;
+    color: white;
+  }

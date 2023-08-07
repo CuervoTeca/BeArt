@@ -4,9 +4,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DishController;
+use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\UnitController;
+use App\Http\Controllers\Api\MuscleGroupController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
+
+Route::get('listCountries', [CountryController::class, 'listCountries']);
+
+Route::get('listUnits', [UnitController::class, 'listUnits']);
+
+Route::get('listMuscleGroups', [MuscleGroupController::class, 'listMuscleGroups']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     //protected auth routes

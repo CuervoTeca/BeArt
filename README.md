@@ -61,22 +61,12 @@ BeArt App
    - DB_USERNAME=tu-usuario con tu usuario de SQL Server (temporal sa)
    - DB_PASSWORD=tu-contraseña con tu contraseña de SQL Server (temporal contraseña de sa)
 
-4. Crear bd y esquemas:
+4. Crear bd en SQL Server:
 
 ```
 USE master
 GO
 CREATE DATABASE BeArt
-GO
-USE BeArt
-GO
-CREATE SCHEMA Users
-GO
-CREATE SCHEMA Health
-GO
-CREATE SCHEMA Social
-GO
-CREATE SCHEMA Demographics
 GO
 ```
 

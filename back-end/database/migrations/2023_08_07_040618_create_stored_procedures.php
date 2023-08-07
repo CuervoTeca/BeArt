@@ -65,7 +65,22 @@ return new class extends Migration
             VALUES (@FirstName, @LastName1, @LastName2, @BirthDate, @DemographicInfoID, @ContactInfoID, @HealthInfoID, @PasswordID)
         END';
 
+        $getUserProfile = 'CREATE PROCEDURE sp_getUserProfile
+            @id INT
+        AS
+        BEGIN
+            SELECT FirstName, LastName1, LastName2, BirthDate, U.CreatedAt, RoleName, CountryName, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, H.LastUpdatedAt, Age
+            FROM Users.Users AS U
+            JOIN dbo.Role AS R ON U.RoleID = R.RoleID
+            JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
+            JOIN Demographics.Country AS C ON D.CountryID = C.CountryID
+            JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
+            JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
+            WHERE U.id = @id
+        END';
+
         DB::statement($insertUser);
+        DB::statement($getUserProfile);
     }
 
     /**

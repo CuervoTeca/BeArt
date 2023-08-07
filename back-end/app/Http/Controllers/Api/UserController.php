@@ -10,6 +10,7 @@ use App\Models\ContactInfo;
 use App\Models\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -105,11 +106,20 @@ class UserController extends Controller
     }
 
     public function userProfile(){
-        return response()->json([
-            "status" => 200,
-            "message" => "User profile info",
-            "accessToken" => auth()->user()
-        ], 200);
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+
+            $procedureName = "sp_getUserProfile";
+
+            $data = DB::select("EXEC $procedureName $userId");
+    
+            return response()->json([
+                "status" => 200,
+                "message" => "User profile info",
+                "data" => $data
+            ], 200);
+        }
     }
 
     public function logout(){

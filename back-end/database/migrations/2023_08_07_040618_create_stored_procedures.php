@@ -155,6 +155,34 @@ return new class extends Migration
             DELETE FROM Health.NutritionFactsPer100G WHERE NutritionFactsID = @NutritionFactsID
         END';
 
+        $listAddictions = 'CREATE PROCEDURE sp_listAddictions
+        AS
+        BEGIN
+            SELECT AddictionID, AddictionName, UnitName
+            FROM Health.Addiction as H
+            JOIN Health.Unit AS U ON H.UnitID = U.UnitID
+        END';
+
+        $showAddiction = 'CREATE PROCEDURE sp_showAddiction
+            @AddictionID INT
+        AS
+        BEGIN
+            SELECT AddictionID, AddictionName, UnitName
+            FROM Health.Addiction AS A
+            JOIN Health.Unit as U ON A.UnitID = U.UnitID
+        END';
+
+        $updateAddiction = 'CREATE PROCEDURE sp_updateAddiction
+            @AddictionID INT,
+            @AddictionName VARCHAR(50),
+            @UnitID INT
+        AS
+        BEGIN
+            UPDATE Health.Addiction
+            SET AddictionName = @AddictionName, UnitID = @UnitID
+            WHERE AddictionID = @AddictionID
+        END';
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($insertDish);
@@ -162,6 +190,9 @@ return new class extends Migration
         DB::statement($showDish);
         DB::statement($updateDish);
         DB::statement($deleteDish);
+        DB::statement($listAddictions);
+        DB::statement($showAddiction);
+        DB::statement($updateAddiction);
     }
 
     /**
@@ -176,5 +207,8 @@ return new class extends Migration
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showDish;');
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateDish;');
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_deleteDish;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listAddictions;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showAddiction;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateAddiction;');
     }
 };

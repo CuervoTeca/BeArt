@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DishController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\MuscleGroupController;
+use App\Http\Controllers\Api\AddictionController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -28,6 +29,13 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get("showDish/{dishId}", [DishController::class, 'showDish']);
     Route::put("updateDish/{dishId}", [DishController::class, 'updateDish']);
     Route::delete("deleteDish/{dishId}", [DishController::class, 'deleteDish']);
+
+    //protected addictions routes
+    Route::post("createAddiction", [AddictionController::class, 'createAddiction']);
+    Route::get("listAddictions", [AddictionController::class, 'listAddictions']);
+    Route::get("showAddiction/{addictionId}", [AddictionController::class, 'showAddiction']);
+    Route::put("updateAddiction/{addictionId}", [AddictionController::class, 'updateAddiction']);
+    Route::delete("deleteAddiction/{addictionId}", [AddictionController::class, 'deleteAddiction']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

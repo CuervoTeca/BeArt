@@ -9,6 +9,8 @@ class Addiction extends Model
 {
     protected $table = 'Health.Addiction';
 
+    protected $primaryKey = 'AddictionID';
+
     protected $filllable = [
         'AddictionName',
         'UnitID'

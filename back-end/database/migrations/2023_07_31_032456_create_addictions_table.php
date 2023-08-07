@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('Health.Addiction', function (Blueprint $table) {
             $table->id('AddictionID');
-            $table->string('Addictionname', 50);
+            $table->string('AddictionName', 50);
             $table->bigInteger('UnitID');
 
             $table->foreign('UnitID')->references('UnitID')->on('Health.Unit');

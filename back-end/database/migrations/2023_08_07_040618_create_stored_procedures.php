@@ -141,7 +141,7 @@ return new class extends Migration
             SET Calories = @Calories, Fats = @Fats, Collesterol = @Collesterol, Sodium = @Sodium, Fiber = @Fiber, Carbs = @Carbs, Protein = @Protein
             WHERE NutritionFactsID = (SELECT NutritionFactsID 
                                     FROM Health.Dish 
-                                    WHERE DishID = 1)
+                                    WHERE DishID = @DishID)
         END';
 
         $deleteDish = 'CREATE PROCEDURE sp_deleteDish

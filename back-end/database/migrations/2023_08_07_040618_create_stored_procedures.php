@@ -23,8 +23,8 @@ return new class extends Migration
             @FacebookName VARCHAR(50),
             @Instagram VARCHAR(20),
             @Twitter VARCHAR(20),
-            @Weight DECIMAL(18, 2),
-            @Height DECIMAL(18, 2),
+            @Weight DECIMAL(5, 2),
+            @Height DECIMAL(4, 2),
             @PasswordHash VARCHAR(255)
         AS
         BEGIN
@@ -79,8 +79,89 @@ return new class extends Migration
             WHERE U.id = @id
         END';
 
+        $insertDish = 'CREATE PROCEDURE sp_insertDish
+            @DishName VARCHAR(50),
+            @Calories DECIMAL(7, 2),
+            @Fats DECIMAL(7, 2),
+            @Collesterol DECIMAL(7, 2),
+            @Sodium DECIMAL(7, 2),
+            @Fiber DECIMAL(7, 2),
+            @Carbs DECIMAL(7, 2),
+            @Protein DECIMAL(7, 2)
+        AS
+        BEGIN
+            -- Insert to NutritionFactsPer100G table
+            INSERT INTO Health.NutritionFactsPer100G (Calories, Fats, Collesterol, Sodium, Fiber, Carbs, Protein)
+            VALUES (@Calories, @Fats, @Collesterol, @Sodium, @Fiber, @Carbs, @Protein)
+        
+            -- Get NutritionFactsPer100G generated ID
+            DECLARE @NutritionFactsID INT
+            SET @NutritionFactsID = SCOPE_IDENTITY()
+        
+            -- Insert to Dish table with Foreign Keys
+            INSERT INTO Health.Dish (DishName, NutritionFactsID)
+            VALUES (@DishName, @NutritionFactsID)
+        END';
+
+        $listDishes = 'CREATE PROCEDURE sp_listDishes
+        AS
+        BEGIN
+            SELECT DishID, DishName, Calories, Fats, Collesterol, Sodium, Fiber, Carbs, Protein
+            FROM Health.Dish AS D
+            JOIN Health.NutritionFactsPer100G AS NF ON D.NutritionFactsID = NF.NutritionFactsID
+        END';
+
+        $showDish = 'CREATE PROCEDURE sp_showDish
+            @DishID INT
+        AS
+        BEGIN
+            SELECT DishID, DishName, Calories, Fats, Collesterol, Sodium, Fiber, Carbs, Protein
+            FROM Health.Dish AS D
+            JOIN Health.NutritionFactsPer100G AS NF ON D.NutritionFactsID = NF.NutritionFactsID
+            WHERE DishID = @DishID
+        END';
+
+        $updateDish = 'CREATE PROCEDURE sp_updateDish
+            @DishID INT,
+            @DishName VARCHAR(50),
+            @Calories DECIMAL(7, 2),
+            @Fats DECIMAL(7, 2),
+            @Collesterol DECIMAL(7, 2),
+            @Sodium DECIMAL(7, 2),
+            @Fiber DECIMAL(7, 2),
+            @Carbs DECIMAL(7, 2),
+            @Protein DECIMAL(7, 2)
+        AS
+        BEGIN
+            UPDATE Health.Dish
+            SET DishName = @DishName
+            WHERE DishID = @DishID
+        
+            UPDATE Health.NutritionFactsPer100G
+            SET Calories = @Calories, Fats = @Fats, Collesterol = @Collesterol, Sodium = @Sodium, Fiber = @Fiber, Carbs = @Carbs, Protein = @Protein
+            WHERE NutritionFactsID = (SELECT NutritionFactsID 
+                                    FROM Health.Dish 
+                                    WHERE DishID = 1)
+        END';
+
+        $deleteDish = 'CREATE PROCEDURE sp_deleteDish
+            @DishID INT
+        AS
+        BEGIN
+            DECLARE @NutritionFactsID INT
+            SET @NutritionFactsID = (SELECT NutritionFactsID FROM Health.Dish WHERE DishID = @DishID)
+        
+            DELETE FROM Health.Dish WHERE DishID = @DishID
+            DELETE FROM Health.NutritionFactsPer100G WHERE NutritionFactsID = @NutritionFactsID
+        END';
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
+        DB::statement($insertDish);
+        DB::statement($listDishes);
+        DB::statement($showDish);
+        DB::statement($updateDish);
+        DB::statement($deleteDish);
     }
 
     /**
@@ -89,5 +170,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_insertUser;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_getUserProfile;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_insertDish;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listDishes;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showDish;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateDish;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_deleteDish;');
     }
 };

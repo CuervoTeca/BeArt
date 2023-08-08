@@ -13,17 +13,14 @@ const ReactProSidebar: React.FC<ContainerProps> = () => {
 
   return (
     <div id="custom-sidebar-div">
-      <Sidebar id="custom-sidebar">
-        <div id='title'>
-        <img src={logo} alt="Logo" id='logo-title'/>
-
-          <h2 id="sidebar-title">
-            BEART
-          </h2>
+      <Sidebar id="custom-sidebar"  backgroundColor='white'>
+        <div id='title-div'>
+          <img src={logo} alt="Logo" id='logo-title'/>
+          <h2 id="sidebar-title">BEART</h2>
         </div>
         <Menu>
-        <hr className="sidebar-divider" />
-        <Link to="/homeAdmin" className='link'><MenuItem icon={<IonIcon icon={homeOutline} className='MenuItem-icon'/>} className="MenuItem"> Inicio </MenuItem></Link>
+          <hr className="sidebar-divider" />
+          <Link to="/homeAdmin" className='link'><MenuItem icon={<IonIcon icon={homeOutline} className='MenuItem-icon'/>} className="MenuItem"> Inicio </MenuItem></Link>
 
           <h2 className="sidebar-section">Tablas</h2>
           <Link to="/dishes" className='link'><MenuItem icon={<IonIcon icon={restaurantOutline} className='MenuItem-icon' />} className="MenuItem">Platillos</MenuItem></Link>

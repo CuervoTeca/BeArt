@@ -14,3 +14,31 @@
     width: 100%;
     background-color: blue;
 }
+
+.card-container-center {
+    position: relative;
+    text-align: center;
+  }
+  
+  /* Estilos para el icono */
+  .card-container-center ion-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5pc;
+    color: white;
+  }
+  
+  /* Estilos para la imagen */
+  .card-container-center img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .card-container-center:hover {
+    transform: scale(1.05);
+  }
+

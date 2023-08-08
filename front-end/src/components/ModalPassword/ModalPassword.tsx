@@ -59,59 +59,55 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
   
   return (
     <>
-    <IonButton className="LoginPass" fill="clear"  color="secondary" onClick={openModal}>
-      Olvidaste tu contraseña?
-    </IonButton>
-    <IonModal isOpen={showModal} onDidDismiss={closeModal}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle size='large'>
-            <div className="Close">
-              Contraseña olvidada
-              <IonButtons slot="end" onClick={closeModal}>
-                <IonIcon slot="icon-only" icon={close} />
-              </IonButtons>
-            </div>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonCard>
-          <IonCardContent  className='DivPassword2'>
-            <div className='DivPassword'>
-            <form onSubmit={handlePassword}>
-              <IonItem>
-                <IonLabel position="floating">Correo electrónico</IonLabel>
-                <IonInput
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onIonChange={handleInputChange}
-                  required
-                />
-              </IonItem>
-              <IonButton className="button-margin" expand="full" type="submit">
-                Buscar
-              </IonButton>
-            </form>
-            </div>
-          </IonCardContent>
-        </IonCard>
-        <IonToast
-          isOpen={true} // El Toast se mostrará automáticamente cuando se renderice
-          onDidDismiss={() => {}}
-          message="Contraseña enviada a tu correo"
-          duration={3000}
-        />
-      </IonContent>
+      <IonButton className="LoginPass" fill="clear" color="secondary" onClick={openModal}>
+        Olvidaste tu contraseña?
+      </IonButton>
+      <IonModal isOpen={showModal} onDidDismiss={closeModal}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle size='large'>
+              <div className="Close">
+                Contraseña olvidada
+                <IonButtons slot="end" onClick={closeModal}>
+                  <IonIcon slot="icon-only" className='closeIconfont' icon={close} />
+                </IonButtons>
+              </div>
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonCard>
+            <IonCardContent>
+              <form onSubmit={handlePassword}>
+                <IonItem>
+                  <IonLabel position="floating">Correo electrónico</IonLabel>
+                  <IonInput
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+              </form>
+            </IonCardContent>
+          </IonCard>
+          <IonToast
+            isOpen={true} // El Toast se mostrará automáticamente cuando se renderice
+            onDidDismiss={() => { }}
+            message="Contraseña enviada a tu correo"
+            duration={3000}
+          />
+        </IonContent>
         <IonToast
           isOpen={ShowErrorToast}
           onDidDismiss={() => setShowErrorToast(false)}
           message="Cuenta inexistente.."
           duration={5000}
         />
-    </IonModal>
-  </>
+        <IonButton expand="full" type="submit">Buscar</IonButton>
+      </IonModal>
+    </>
   );
 }
 

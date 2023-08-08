@@ -1,11 +1,9 @@
 #custom-sidebar-div {
   height: 100%;
-  width: 95%;
-  color: black;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px -3px, rgba(0, 0, 0, 0.05) 0px 1px 1px -2px;
+  width: 90%;
 }
 
-#title {
+#title-div {
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -17,14 +15,14 @@
 
 #sidebar-title {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: var(--ion-color-primary-shade);
+  color: var(--ion-color-primary);
 }
 
 #custom-sidebar {
+  color: black;
   width: 100%;
   height: 100%;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 10px -3px, rgba(0, 0, 0, 0.05) 0px 1px 1px -2px;
 }
 
 .sidebar-section {
@@ -42,7 +40,8 @@
 }
 
 .MenuItem-icon {
-  color: var(--ion-color-primary-shade);
+  font-size: large;
+  color: var(--ion-color-primary-tint);
 }
 
 .link {
@@ -57,7 +56,7 @@
 
 #footer {
   color: var(--ion-color-secondary-contrast);
-  background-color: var(--ion-color-secondary);
+  background-color: var(--ion-color-primary);
   height: 25%;
   margin: 10% 10% 1% 10%;
   border-radius: 20%;

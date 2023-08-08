@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonList, IonLabel, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading, IonToast } from '@ionic/react';
 import axios from 'axios';
 import './Login.css';
-import ModalSignUp from '../../components/Modal Registro/ModalSignUp';
+import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
 import { useHistory } from 'react-router-dom';
 import ToastsComponent from '../../components/ToastsComponentProps/ToastComponent';
-import ModalContraseña from '../../components/ModalContraseña/ModalContraseña';
+import ModalPassword from '../../components/ModalPassword/ModalPassword';
 
 
 const Login: React.FC = () => {
@@ -72,21 +72,21 @@ const Login: React.FC = () => {
                 <IonInput
                   type="email"
                   placeholder="Correo electrónico"
-                  value={formData.email}
+                  value={email}
                   onIonChange={(e) => setEmail(e.detail.value!)}
                   className="button-margin"
                 />
                 <IonInput
                   type="password"
                   placeholder="Contraseña"
-                  value={formData.password}
+                  value={password}
                   onIonChange={(e) => setPassword(e.detail.value!)}
                   className="button-margin"
                 />
                 <IonButton expand='full' fill='solid' onClick={handleLogin} className="button-margin">
                     Acceso
                 </IonButton>
-          <ModalContraseña></ModalContraseña>
+          <ModalPassword></ModalPassword>
                 <ModalSignUp />
               </div>
             </IonCol>

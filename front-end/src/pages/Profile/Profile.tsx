@@ -1,38 +1,146 @@
-import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonContent } from '@ionic/react';
-import React from 'react';
-
-
-import './Profile.css'
-import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
+import React, { useState } from 'react';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+  IonIcon,
+  IonMenuButton,
+  IonAvatar,
+  IonLabel,
+  IonItem,
+  IonCheckbox,
+  IonInput,
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCard,
+  IonPage,
+  IonList,
+  IonSegment,
+  IonSegmentButton,
+} from '@ionic/react';
+import { menuOutline,  settingsOutline, cameraOutline } from 'ionicons/icons';
+import './Profile.css';
+import axios from 'axios';
+import InfoProfile from '../../components/InfoProfile/InfoProfile';
 
 const Profile: React.FC = () => {
-  return (
-<div id='div-main'>
-      <div id='div-menu'>
-        <ReactProSidebar></ReactProSidebar>
-      </div>
-      <div id='div-content'>
-        <IonContent>
-          <IonGrid>
-            <IonRow><IonCol><h1>Perfil</h1></IonCol></IonRow>
-            <IonRow>
+  const [selectedSegment, setSelectedSegment] = useState("configurarPerfil");
+  const [formData, setFormData] = useState({
+    FirstName: 'Guillermo',
+    LastName1: 'Salas',
+    LastName2: 'Salas',
+    BirthDate: '10/10/1998',
+    EmailAddress: 'ejemplo@correo.com',
+    Phone: '664749442',
+    contrasena: '8datosomas',
+    image:'',
+  });
 
-              <IonCol>
-                <IonCard>
-                  <IonCardHeader>
-                    <IonCardTitle>Perfil</IonCardTitle>
-                    <IonCardSubtitle>Perfil</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent>Perfil.</IonCardContent>
+  const handleInputChange = (event: CustomEvent) => {
+    const { name, value } = event.detail;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const guardarPerfil = () => {
+    // Aquí se debe implementar la lógica para guardar los cambios del perfil
+    console.log("Perfil guardado:", formData);
+  };
+
+  /* SEGMENTOS */
+  const handleSegmentChange = (e: CustomEvent) => {
+    setSelectedSegment(e.detail.value);
+  };
+
+
+  /*IMAGEN*/
+    const [selectedImage, setSelectedImage] = useState<File | null>(null); // Estado para almacenar la imagen seleccionada
+    const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0] || null;
+      setSelectedImage(file);
+    };
+    const uploadImage = async () => {
+      if (!selectedImage) return;
+      try {
+        const formData = new FormData();
+        formData.append('image', selectedImage);
+  
+        // Reemplaza 'https://api.example.com/upload' por la URL de tu API en Laravel
+        const response = await axios.post('https://api.example.com/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        // Aquí puedes manejar la respuesta de la API si es necesario
+        console.log('Respuesta de la API:', response.data);
+        console.log(formData)
+      } catch (error) {
+        console.error('Error al subir la imagen:', error);
+      }
+    };
+
+  return (
+    <IonPage >
+      {/* Barra de navegación */}
+      <IonHeader>
+        <IonToolbar color={'primary'}>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle className='settingsOutlineStyle'> <IonIcon className='settingsOutlineStyleIcon'  icon={settingsOutline} />Configurarción de usuario</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent >
+        {/* Función para cambiar de imagen  */}
+      <IonItem >
+          <IonGrid className="profile-container">
+            <IonRow>
+              <IonCol className="profile-header">
+                <IonCard className="profile-background-card">
+                  <img src="/src/images/logo.png" alt="Background" />
+                  <label htmlFor="image-input">
+                    <IonIcon icon={cameraOutline} className="camera-icon" />
+                  </label>
+                  <input
+                    id="image-input"
+                    type="file"
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    onChange={handleImageInputChange}
+                  />
                 </IonCard>
               </IonCol>
-
             </IonRow>
           </IonGrid>
-        </IonContent>
-      </div>
-    </div>
-);
+        </IonItem>
+        <hr></hr>
+      {/* Menú */}
+      <IonSegment value={selectedSegment} onIonChange={handleSegmentChange} >
+          <IonSegmentButton value="configurarPerfil">
+            <IonLabel>Configuración</IonLabel>
+          </IonSegmentButton>
+
+        </IonSegment>
+         {/* Sección de Configurar perfil */}
+         {selectedSegment === "configurarPerfil" && ( 
+                  <InfoProfile></InfoProfile>
+                )}
+ 
+           {/* Sección de imagenes */}
+        {selectedSegment === "imagenes" && (
+          <IonCard>
+            {/* Aquí puedes mostrar tus imagenes */}
+            <p>Mis imagenes...</p>
+          </IonCard>
+        )}
+
+      </IonContent>
+    </IonPage>
+  );
 };
 
 export default Profile;

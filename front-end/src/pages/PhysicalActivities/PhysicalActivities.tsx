@@ -1,16 +1,37 @@
 import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonButton, IonContent, IonPopover, IonIcon } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, heartOutline } from 'ionicons/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
-
 import './PhysicalActivities.css'
 import ModalUpdatePhysicalActivities from '../../components/ModalUpdatePhysicalActivities/ModalUpdatePhysicalActivities';
 import ModalAddPhysicalActivities from '../../components/ModalAddPhysicalActivities/ModalAddPhysicalActivities';
+import axios from 'axios';
 
 const PhysicalActivities: React.FC = () => {
+  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
+  const openUpdateModal = (activityId: number) => {
+    setSelectedActivityId(activityId);
+    // Abre el modal aquí si es necesario
+  };
 
-  const data =[
+  const handleDelete = async (activityId: number) => {
+    try {
+      // Envía la solicitud DELETE a la API para borrar el platillo por su ID
+      const response = await axios.delete(`URL_DE_TU_API/${activityId}`);
+      console.log('Respuesta de la API:', response.data);
+  
+      // Actualiza los datos en la vista (puedes recargar los datos desde la API o simplemente eliminar el elemento del estado)
+      // Por ejemplo, si estás usando estado para almacenar los datos:
+      const updatedData = data.filter(item => item.ActivityId !== activityId);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Error al borrar la addición:', error);
+      console.log(activityId)
+    }
+  };
+
+  const [data, setData] = useState([
     {
       ActivityId: 1,
       ActivityName: "Lagartijas",
@@ -18,7 +39,7 @@ const PhysicalActivities: React.FC = () => {
       MuscleGroupId: 5,
       MuscleName: "Pecho",
     }
-  ]
+  ])
 
   const columns =[
     {
@@ -53,14 +74,15 @@ const PhysicalActivities: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton id={row.ActivityId + "PhysicalActivities"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
+            <IonButton id={row.ActivityId + "PhysicalActivities"} fill='clear' onClick={() => openUpdateModal(row.ActivityId)}><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
             <IonPopover trigger={row.ActivityId + "PhysicalActivities"} triggerAction="click" className='IonPopover'>
                 <IonContent className="RowModal">
-                  <ModalUpdatePhysicalActivities></ModalUpdatePhysicalActivities> 
-                  <IonButton id={row.ActivityId + "PhysicalActivities"} fill='clear' color="danger"><IonIcon icon={trashOutline}/> Borrar </IonButton>
+                <ModalUpdatePhysicalActivities activityId={selectedActivityId}></ModalUpdatePhysicalActivities>
+                <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.ActivityId)}>
+                 <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
-            </IonPopover>
-      </> ,
+              </IonPopover>
+        </> ,
       allowOverflow: true,
       button: true,
     }
@@ -87,7 +109,7 @@ const PhysicalActivities: React.FC = () => {
                       data = {data}
                       pagination
                     />
-                  <ModalAddPhysicalActivities></ModalAddPhysicalActivities>
+                  <ModalAddPhysicalActivities activityId={selectedActivityId}></ModalAddPhysicalActivities>
                   </IonCardContent>
                   </IonCard>
               </IonCol>

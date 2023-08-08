@@ -1,19 +1,39 @@
-import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonPage, IonItem, IonIcon, IonInput, IonList } from '@ionic/react';
-import React, { useState, useRef } from 'react';
-import './ModalUpdateDishes.css'
+import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem, IonIcon, IonInput, IonList, IonButtons, IonLabel } from '@ionic/react';
+import React, { useState } from 'react';
+import './ModalUpdateDishes.css';
+import axios from 'axios';
+import { close } from 'ionicons/icons';
 
-const ModalUpdateDishes: React.FC = () => {
+const ModalUpdateDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
+  const [DishId, setIdAddicton] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-    const [showModal, setShowModal] = useState(false);
-
-    // abrir el modal
   const openModal = () => {
     setShowModal(true);
-  }
-  // cerrar el modal
-  const closeModal = () => {
+    };
+    
+    const closeModal = () => {
     setShowModal(false);
-  }
+    };
+
+    const handleUpdate = () => {
+      // Aquí debes implementar la lógica para manejar la actualización de adicción
+      const updatedData = {
+        id: DishId
+      };
+  axios.put(`URL_DE_TU_API/${DishId}`, updatedData)
+  .then(response => {
+    // Manejar la respuesta de la API y actualizar la vista si es necesario
+    console.log('Respuesta de la API:', response.data);
+    // Por ejemplo, podrías cerrar el modal después de la actualización
+    closeModal();
+  })
+  .catch(error => {
+    // Manejar los errores
+    console.log(updatedData);
+    console.error('Error al actualizar la adicción:', error);
+  });
+};
 
   return (
 <>
@@ -22,12 +42,24 @@ const ModalUpdateDishes: React.FC = () => {
     </IonButton>
 
     <IonModal isOpen={showModal} onDidDismiss={closeModal}>
-        <IonContent>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle size='large'>
+            <div className="Close">
+              Actualizar adicción
+              <IonButtons slot="end" onClick={closeModal}>
+                <IonIcon slot="icon-only" icon={close} />
+              </IonButtons>
+            </div>
+          </IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
           <IonList>
-            <IonItem>
-              <IonInput label="Id :" value="01" readonly={true}></IonInput>
-            </IonItem>
-
+          <IonItem>
+                <IonLabel position="floating">ID:</IonLabel>
+                <IonInput value={dishId}  onIonChange={e => setIdAddicton(e.detail.value!)} />
+              </IonItem>
             <IonItem>
               <IonInput label="Nombre del platillo :"></IonInput>
             </IonItem>
@@ -65,7 +97,7 @@ const ModalUpdateDishes: React.FC = () => {
             </IonItem>
           </IonList>
           <div className='guardarButton'>
-          <IonButton>Guardar</IonButton>
+          <IonButton expand="full" onClick={handleUpdate}>Guardar</IonButton>
         </div>
         </IonContent>
     </IonModal>

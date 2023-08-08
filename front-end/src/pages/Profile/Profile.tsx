@@ -22,10 +22,11 @@ import {
   IonSegment,
   IonSegmentButton,
 } from '@ionic/react';
-import { menuOutline,  settingsOutline, cameraOutline } from 'ionicons/icons';
+import { menuOutline,  settingsOutline, cameraOutline, serverOutline } from 'ionicons/icons';
 import './Profile.css';
 import axios from 'axios';
 import InfoProfile from '../../components/InfoProfile/InfoProfile';
+import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 
 const Profile: React.FC = () => {
   const [selectedSegment, setSelectedSegment] = useState("configurarPerfil");
@@ -84,17 +85,18 @@ const Profile: React.FC = () => {
     };
 
   return (
-    <IonPage >
+<div id='div-main'>
+      <div id='div-menu'>
+        <ReactProSidebar></ReactProSidebar>
+      </div>
+      <div id='div-content'>
+        <IonContent>
+          <IonGrid>
+          <IonRow><IonCol><h1> <IonIcon className='settingsOutlineStyleIcon'  icon={settingsOutline} /> Base de datos</h1></IonCol></IonRow>
+          <IonCard>
       {/* Barra de navegación */}
-      <IonHeader>
-        <IonToolbar color={'primary'}>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle className='settingsOutlineStyle'> <IonIcon className='settingsOutlineStyleIcon'  icon={settingsOutline} />Configurarción de usuario</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent >
+     
+
         {/* Función para cambiar de imagen  */}
       <IonItem >
           <IonGrid className="profile-container">
@@ -138,8 +140,12 @@ const Profile: React.FC = () => {
           </IonCard>
         )}
 
-      </IonContent>
-    </IonPage>
+ 
+      </IonCard>
+          </IonGrid>
+        </IonContent>
+      </div>
+    </div>
   );
 };
 

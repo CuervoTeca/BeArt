@@ -9,53 +9,34 @@ import ModalPassword from '../../components/ModalPassword/ModalPassword';
 import logo from '../../images/BeArtLogo.svg'
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');  
   const [isLoading, setIsLoading] = useState(false); // Estado para controlar la pantalla de carga
 
-  // Data del formulario
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-  //History, segun sive para hacer el push al Home con el metodo post.
-  const history = useHistory(); // Obtén el objeto history
- 
-  // Ventana emergente de éxito de acceso
-  const [showSuccessAccesoToast, setShowSuccessAccesoToast] = useState(false);
-  // Ventana emergente de datos no válidos
-  const [showInvalidDataToast, setShowInvalidDataToast] = useState(false);
-  
- 
+  const [EmailAddress, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+
+  const history = useHistory();
+
   const handleLogin = async () => {
-    setIsLoading(true); // Mostrar pantalla de carga
-    const formData = {
-      email: email,
-      password: password,
-    };
-
-    //Publica el registro en la api
     try {
-      // Simular una solicitud de inicio de sesión con una espera de 3 segundos
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        EmailAddress: EmailAddress,
+        Password: Password
+      });
 
-      // Aquí realizarías la solicitud de inicio de sesión real con axios
-       const response = await axios.post('http://127.0.0.1:8000/api/login', formData);
-      
-      setIsLoading(false); // Ocultar pantalla de carga
-      
-      // Manejar la respuesta del servidor, por ejemplo, guardar el token en el almacenamiento local o en cookies
-      console.log('Inicio de sesión exitoso');
+      const accessToken = response.data.accessToken;
+      // Guardar el token en el almacenamiento local para mantenerlo durante la sesión
+      localStorage.setItem('accessToken', accessToken);
 
-      // Redirigir al usuario a la página de inicio después de iniciar sesión
-      history.push('/home');
+      // Aquí puedes redirigir a otra página o realizar otras operaciones después del inicio de sesión exitoso
+      history.push('/homeAdmin');
+
     } catch (error) {
-        // Mostrar el Toast de datos no válidos
-        setShowInvalidDataToast(true);
-      console.error('Error en el inicio de sesión:', error);
+      console.error('Error during login:', error);
     }
   };
 
+    const [showSuccessAccesoToast, setShowSuccessAccesoToast] = useState(false);
+    const [showInvalidDataToast, setShowInvalidDataToast] = useState(false);
 
   return (
     <IonPage>
@@ -69,14 +50,14 @@ const Login: React.FC = () => {
                 <IonInput
                   type="email"
                   placeholder="Correo electrónico"
-                  value={email}
+                  value={EmailAddress}
                   onIonChange={(e) => setEmail(e.detail.value!)}
                   className="button-margin"
                 />
                 <IonInput
                   type="password"
                   placeholder="Contraseña"
-                  value={password}
+                  value={Password}
                   onIonChange={(e) => setPassword(e.detail.value!)}
                   className="button-margin"
                 />

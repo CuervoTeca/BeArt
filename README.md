@@ -41,6 +41,8 @@ BeArt App
 
 4. npm install axios
 
+4. npm install react-data-table-component
+
 5. npm run dev
 
 

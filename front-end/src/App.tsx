@@ -35,40 +35,39 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-          <Route exact path="/home">
-            <Login />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route exact path="/dishes">
-            <Dishes />
-          </Route>
-          <Route exact path="/users">
-            <Users />
-          </Route>
-          <Route exact path="/addictions">
-            <Addictions />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/database">
-            <DataBase />
-          </Route>
-          <Route exact path="/physicalActivities">
-            <PhysicalActivities />
-          </Route>
-          <Route exact path="/homeAdmin">
-            <HomeAdmin />
-          </Route>
-          <Route exact path="/Login">
+        <Route exact path="/home">
           <Login />
         </Route>
-      </IonRouterOutlet>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+        <Route exact path="/dishes">
+          <Dishes />
+        </Route>
+        <Route exact path="/users">
+          <Users />
+        </Route>
+        <Route exact path="/addictions">
+          <Addictions />
+        </Route>
+        <Route exact path="/profile">
+          <Profile />
+        </Route>
+        <Route exact path="/database">
+          <DataBase />
+        </Route>
+        <Route exact path="/physicalActivities">
+          <PhysicalActivities />
+        </Route>
+        <Route path="/homeAdmin">
+          <HomeAdmin />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
     </IonReactRouter>
   </IonApp>
 );
+
 
 export default App;

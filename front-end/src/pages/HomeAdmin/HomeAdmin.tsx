@@ -18,7 +18,7 @@ const HomeAdmin: React.FC = () => {
       <div id='div-content'>
         <IonContent>
           <IonGrid>
-            <IonRow><IonCol><h1>Tablas</h1></IonCol></IonRow>
+            <IonRow><IonCol><h1>Inicio</h1></IonCol></IonRow>
             <IonRow>
               <IonCol>
                 <IonCard>

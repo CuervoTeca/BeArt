@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonList, IonLabel, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading, IonToast } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading} from '@ionic/react';
 import axios from 'axios';
 import './Login.css';
 import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
-              <img src="/src/images/logo.png" alt="Logo" className="logo" />
+              <img src={logo} alt="Logo" className="logo" />
             </IonCol>
             <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
             <div className="form-container">

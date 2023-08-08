@@ -6,7 +6,7 @@ import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
 import { useHistory } from 'react-router-dom';
 import ToastsComponent from '../../components/ToastsComponentProps/ToastComponent';
 import ModalPassword from '../../components/ModalPassword/ModalPassword';
-
+import logo from '../../images/BeArtLogo.svg'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');

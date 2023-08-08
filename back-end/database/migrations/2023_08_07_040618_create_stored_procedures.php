@@ -118,7 +118,7 @@ return new class extends Migration
             SELECT DishID, DishName, Calories, Fats, Collesterol, Sodium, Fiber, Carbs, Protein
             FROM Health.Dish AS D
             JOIN Health.NutritionFactsPer100G AS NF ON D.NutritionFactsID = NF.NutritionFactsID
-            WHERE DishID = @DishID
+            WHERE D.DishID = @DishID
         END';
 
         $updateDish = 'CREATE PROCEDURE sp_updateDish
@@ -170,6 +170,7 @@ return new class extends Migration
             SELECT AddictionID, AddictionName, UnitName
             FROM Health.Addiction AS A
             JOIN Health.Unit as U ON A.UnitID = U.UnitID
+            WHERE A.AddictionID = @AddictionID
         END';
 
         $updateAddiction = 'CREATE PROCEDURE sp_updateAddiction
@@ -183,6 +184,36 @@ return new class extends Migration
             WHERE AddictionID = @AddictionID
         END';
 
+        $listActivities = 'CREATE PROCEDURE sp_listActivities
+        AS
+        BEGIN
+            SELECT ActivityID, ActivityName, CaloriesBurnedPerHour, MuscleGroupName
+            FROM Health.PhysicalActivity as H
+            JOIN Health.MuscleGroup as MG ON H.MuscleGroupID = MG.MuscleGroupID
+        END';
+
+        $showActivities = 'CREATE PROCEDURE sp_showActivities
+            @ActivityID INT
+        AS
+        BEGIN
+            SELECT ActivityID, ActivityName, CaloriesBurnedPerHour, MuscleGroupName
+            FROM Health.PhysicalActivity as H
+            JOIN Health.MuscleGroup as MG ON H.MuscleGroupID = MG.MuscleGroupID
+            WHERE H.ActivityID = @ActivityID
+        END';
+
+        $updateActivity = 'CREATE PROCEDURE sp_updateActivity
+            @ActivityID INT,
+            @ActivityName VARCHAR(50),
+            @CaloriesBurnedPerHour INT,
+            @MuscleGroupID INT
+        AS
+        BEGIN
+            UPDATE Health.PhysicalActivity
+            SET ActivityName = @ActivityName, CaloriesBurnedPerHour = @CaloriesBurnedPerHour, MuscleGroupID = @MuscleGroupID
+            WHERE ActivityID = @ActivityID
+        END';
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($insertDish);
@@ -193,6 +224,8 @@ return new class extends Migration
         DB::statement($listAddictions);
         DB::statement($showAddiction);
         DB::statement($updateAddiction);
+        DB::statement($listActivities);
+        DB::statement($showActivities);
     }
 
     /**
@@ -210,5 +243,7 @@ return new class extends Migration
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listAddictions;');
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showAddiction;');
         Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateAddiction;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listActivities;');
+        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showActivities;');
     }
 };

@@ -8,14 +8,13 @@ use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\MuscleGroupController;
 use App\Http\Controllers\Api\AddictionController;
+use App\Http\Controllers\Api\PhysicalActivityController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
 Route::get('listCountries', [CountryController::class, 'listCountries']);
-
 Route::get('listUnits', [UnitController::class, 'listUnits']);
-
 Route::get('listMuscleGroups', [MuscleGroupController::class, 'listMuscleGroups']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -36,6 +35,13 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get("showAddiction/{addictionId}", [AddictionController::class, 'showAddiction']);
     Route::put("updateAddiction/{addictionId}", [AddictionController::class, 'updateAddiction']);
     Route::delete("deleteAddiction/{addictionId}", [AddictionController::class, 'deleteAddiction']);
+
+    //protected physical activities routes
+    Route::post("createActivity", [PhysicalActivityController::class, 'createActivity']);
+    Route::get("listActivities", [PhysicalActivityController::class, 'listActivities']);
+    Route::get("showActivity/{activityId}", [PhysicalActivityController::class, 'showActivity']);
+    Route::put("updateActivity/{activityId}", [PhysicalActivityController::class, 'updateActivity']);
+    Route::delete("deleteActivity/{activityId}", [PhysicalActivityController::class, 'deleteActivity']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

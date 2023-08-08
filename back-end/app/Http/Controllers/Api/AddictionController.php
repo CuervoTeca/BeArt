@@ -117,9 +117,7 @@ class AddictionController extends Controller
                 }
             }
         }
-    }
-    
-    
+    }   
 
     public function deleteAddiction($addictionId){
         if (Auth::check()) {
@@ -127,7 +125,7 @@ class AddictionController extends Controller
             $userId = Auth::id();
 
             if ((Addiction::where(["AddictionID" => $addictionId]))->exists()){
-                // if exists, it can be updated
+                // if exists, it can be deleted
 
                 $addiction = Addiction::where(["AddictionID" => $addictionId])->first();
 

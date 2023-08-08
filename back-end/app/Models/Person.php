@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Person extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'Users.Users';
+    protected $table = 'Person.Person';
 
     protected $filllable = [
-        'id',
         'FirstName',
         'LastName1',
         'LastName2',
@@ -24,7 +23,7 @@ class User extends Authenticatable
         'RoleID',
         'DemographicInfoID',
         'ContactInfoID',
-        'HealthInfoID',
+        'PersonalInfoID',
         'PasswordID'
     ];
 
@@ -49,42 +48,42 @@ class User extends Authenticatable
     }
 
     public function DailyImage(){
-        return $this->hasMany(DailyImage::class, 'id', 'UserID');   
+        return $this->hasMany(DailyImage::class, 'PersonID', 'PersonID');   
     }
 
     public function DishesPerDay(){
-        return $this->hasMany(DishesPerDay::class, 'id', 'UserID');   
+        return $this->hasMany(DishesPerDay::class, 'PersonID', 'PersonID');   
     }
 
     public function AddictionsPerDay(){
-        return $this->hasMany(AddictionsPerDay::class, 'id', 'UserID');   
+        return $this->hasMany(AddictionsPerDay::class, 'PersonID', 'PersonID');   
     }
 
     public function ActivitiesPerDay(){
-        return $this->hasMany(ActivitiesPerDay::class, 'id', 'UserID');   
+        return $this->hasMany(ActivitiesPerDay::class, 'PersonID', 'PersonID');   
     }
 
     public function Follower(){
-        return $this->hasMany(Follower::class, 'FollowerID', 'UserID');   
+        return $this->hasMany(Follower::class, 'FollowerID', 'PersonID');   
     }
     
     public function Followee(){
-        return $this->hasMany(Follower::class, 'FolloweeID', 'UserID');   
+        return $this->hasMany(Follower::class, 'FolloweeID', 'PersonID');   
     }
 
     public function Post(){
-        return $this->hasMany(Post::class, 'id', 'UserID');   
+        return $this->hasMany(Post::class, 'PersonID', 'PersonID');   
     }
 
     public function Like(){
-        return $this->hasMany(Like::class, 'id', 'UserID');   
+        return $this->hasMany(Like::class, 'PersonID', 'PersonID');   
     }
 
     public function Comment(){
-        return $this->hasMany(Comment::class, 'id', 'UserID');   
+        return $this->hasMany(Comment::class, 'PersonID', 'PersonID');   
     }
 
     public function Backup(){
-        return $this->hasMany(Backup::class, 'id', 'UserID');   
+        return $this->hasMany(Backup::class, 'PersonID', 'PersonID');   
     }
 }

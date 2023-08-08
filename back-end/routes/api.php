@@ -18,8 +18,12 @@ Route::get('listUnits', [UnitController::class, 'listUnits']);
 Route::get('listMuscleGroups', [MuscleGroupController::class, 'listMuscleGroups']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    //protected auth routes
+    //protected user routes
     Route::get('userProfile', [UserController::class, 'userProfile']);
+    Route::get('listUsers', [UserController::class, 'listUsers']);
+    Route::get("showUser/{userId}", [UserController::class, 'showUser']);
+    Route::put('updateUser/{userId}', [UserController::class, 'updateUser']);
+    Route::delete('deleteUser/{userId}', [UserController::class, 'deleteUser']);
     Route::get('logout', [UserController::class, 'logout']);
 
     //protected dishes routes

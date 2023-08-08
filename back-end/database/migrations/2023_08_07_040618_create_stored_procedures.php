@@ -69,7 +69,7 @@ return new class extends Migration
             @id INT
         AS
         BEGIN
-            SELECT FirstName, LastName1, LastName2, BirthDate, U.CreatedAt, RoleName, CountryName, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, H.LastUpdatedAt, Age
+            SELECT id, FirstName, LastName1, LastName2, BirthDate, U.CreatedAt, RoleName, CountryName, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, H.LastUpdatedAt, Age
             FROM Users.Users AS U
             JOIN dbo.Role AS R ON U.RoleID = R.RoleID
             JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
@@ -77,6 +77,94 @@ return new class extends Migration
             JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
             JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
             WHERE U.id = @id
+        END';
+
+        $listUsers = 'CREATE PROCEDURE sp_listUsers
+        AS
+        BEGIN
+            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleID, CountryID, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
+            FROM Users.Users AS U
+            JOIN Users.Password AS P ON U.PasswordID = P.PasswordID
+            JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
+            JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
+            JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
+        END';
+
+        $showUser = 'CREATE PROCEDURE sp_showUser
+            @id INT
+        AS
+        BEGIN
+            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleID, CountryID, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
+            FROM Users.Users AS U
+            JOIN Users.Password AS P ON U.PasswordID = P.PasswordID
+            JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
+            JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
+            JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
+        END';
+
+        $updateUser = 'CREATE PROCEDURE sp_updateUser
+            @UserID INT,
+            @FirstName VARCHAR(20),
+            @LastName1 VARCHAR(20),
+            @LastName2 VARCHAR(20),
+            @BirthDate DATE,
+            @RoleID INT,
+            @CountryID INT,
+            @City VARCHAR(25),
+            @PhoneNumber VARCHAR(11),
+            @EmailAddress VARCHAR(50),
+            @FacebookName VARCHAR(50),
+            @Instagram VARCHAR(20),
+            @Twitter VARCHAR(20),
+            @Weight DECIMAL(5, 2),
+            @Height DECIMAL(4, 2),
+            @PasswordHash VARCHAR(255)
+        AS
+        BEGIN
+            -- Update DemographicInfo table
+            UPDATE Users.DemographicInfo 
+            SET City = @City, CountryID = @CountryID
+            WHERE DemographicInfoID = (SELECT DemographicInfoID FROM Users.Users WHERE id = @UserID)
+        
+            -- Update ContactInfo table
+            UPDATE Users.ContactInfo
+            SET PhoneNumber = @PhoneNumber, EmailAddress = @EmailAddress, FacebookName = @FacebookName, Instagram = @Instagram, Twitter = @Twitter
+            WHERE ContactInfoID = (SELECT ContactInfoID FROM Users.Users WHERE id = @UserID)
+        
+            -- Update HealthInfo table
+            UPDATE Users.HealthInfo 
+            SET Weight = @Weight, Height = @Height
+            WHERE HealthInfoID = (SELECT HealthInfoID FROM Users.Users WHERE id = @UserID)
+            
+            -- Update Password table
+            UPDATE Users.Password
+            SET PasswordHash = @PasswordHash
+            WHERE PasswordID = (SELECT PasswordID FROM Users.Users WHERE id = @UserID)
+        
+            -- Update User.User
+            UPDATE Users.Users 
+            SET FirstName = @FirstName, LastName1 = @LastName1, LastName2 = @LastName2, BirthDate = @BirthDate, RoleID = @RoleID
+            WHERE Users.id = @UserID
+        END';
+
+        $deleteUser = 'CREATE PROCEDURE sp_deleteUser
+            @id INT
+        AS
+        BEGIN
+            DECLARE @DemographicInfoID INT
+            DECLARE @ContactInfoID INT
+            DECLARE @HealthInfoID INT
+            DECLARE @PasswordID INT
+            SET @DemographicInfoID = (SELECT @DemographicInfoID FROM Users.Users WHERE Users.id = @id)
+            SET @ContactInfoID = (SELECT @ContactInfoID FROM Users.Users WHERE Users.id = @id)
+            SET @HealthInfoID = (SELECT @HealthInfoID FROM Users.Users WHERE Users.id = @id)
+            SET @PasswordID = (SELECT @PasswordID FROM Users.Users WHERE Users.id = @id)
+                
+            DELETE FROM Users.Users WHERE Users.id = @id
+            DELETE FROM Users.DemographicInfo WHERE DemographicInfoID = @DemographicInfoID
+            DELETE FROM Users.ContactInfo WHERE ContactInfoID = @ContactInfoID
+            DELETE FROM Users.HealthInfo WHERE HealthInfoID = @HealthInfoID
+            DELETE FROM Users.Password WHERE PasswordID = @PasswordID
         END';
 
         $insertDish = 'CREATE PROCEDURE sp_insertDish
@@ -192,7 +280,7 @@ return new class extends Migration
             JOIN Health.MuscleGroup as MG ON H.MuscleGroupID = MG.MuscleGroupID
         END';
 
-        $showActivities = 'CREATE PROCEDURE sp_showActivities
+        $showActivity = 'CREATE PROCEDURE sp_showActivity
             @ActivityID INT
         AS
         BEGIN
@@ -216,6 +304,10 @@ return new class extends Migration
 
         DB::statement($insertUser);
         DB::statement($getUserProfile);
+        DB::statement($listUsers);
+        DB::statement($showUser);
+        DB::statement($updateUser);
+        DB::statement($deleteUser);
         DB::statement($insertDish);
         DB::statement($listDishes);
         DB::statement($showDish);
@@ -225,7 +317,8 @@ return new class extends Migration
         DB::statement($showAddiction);
         DB::statement($updateAddiction);
         DB::statement($listActivities);
-        DB::statement($showActivities);
+        DB::statement($showActivity);
+        DB::statement($updateActivity);
     }
 
     /**
@@ -233,17 +326,22 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_insertUser;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_getUserProfile;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_insertDish;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listDishes;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showDish;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateDish;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_deleteDish;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listAddictions;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showAddiction;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_updateAddiction;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_listActivities;');
-        Schema::dropIfExists('DROP PROCEDURE IF EXISTS dbo.sp_showActivities;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_insertUser;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_getUserProfile;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listUsers;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showUser;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateUser;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_deleteUser;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_insertDish;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listDishes;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showDish;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateDish;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_deleteDish;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listAddictions;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showAddiction;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateAddiction;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listActivities;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showActivity;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateActivity;');
     }
 };

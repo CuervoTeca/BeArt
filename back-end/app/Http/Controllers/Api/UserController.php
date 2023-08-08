@@ -132,4 +132,128 @@ class UserController extends Controller
             "message" => "User logged out"
         ], 200);
     }
+
+    public function showUser($userId){
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+    
+            if (User::where("id", $userId)->exists()) {
+                // If the user exists, it can be shown
+    
+                $procedureShowName = "sp_showUser";
+                $user = DB::select("EXEC $procedureShowName $userId");
+    
+                if (count($user) > 0) {
+                    // Assign the first object in the array to $user, as DB::select always returns an array
+                    $user = $user[0];
+    
+                    return response()->json([
+                        "status" => 200,
+                        "message" => "User data",
+                        "data" => $user
+                    ], 200);
+                } else {
+                    return response()->json([
+                        "status" => 404,
+                        "message" => "User not found"
+                    ], 404);
+                }
+            }
+        }
+    }
+
+    public function listUsers(){
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+
+            $procedureName = "sp_listUsers";
+
+            $data = DB::select("EXEC $procedureName");
+    
+            return response()->json([
+                "status" => 200,
+                "message" => "Users list",
+                "data" => $data
+            ], 200);
+        }
+    }
+
+    public function updateUser(Request $request, $userId)
+    {
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+    
+            if (User::where("id", $userId)->exists()) {
+                // If the user exists, it can be updated
+    
+                $procedureShowName = "sp_showUser";
+                $user = DB::select("EXEC $procedureShowName $userId");
+    
+                if (count($user) > 0) {
+                    // Assign the first object in the array to $user, as DB::select always returns an array, but ternary operator needs an object
+                    $user = $user[0];
+    
+                    $FirstName = isset($request->FirstName) ? $request->FirstName : $user->FirstName;
+                    $LastName1 = isset($request->LastName1) ? $request->LastName1 : $user->LastName1;
+                    $LastName2 = isset($request->LastName2) ? $request->LastName2 : $user->LastName2;
+                    $BirthDate = isset($request->BirthDate) ? $request->BirthDate : $user->BirthDate;
+                    $RoleID = isset($request->RoleID) ? $request->RoleID : $user->RoleID;
+                    // $Photo = isset($request->Photo) ? $request->Photo : $user->Photo;
+                    $CountryID = isset($request->CountryID) ? $request->CountryID : $user->CountryID;
+                    $City = isset($request->City) ? $request->City : $user->City;
+                    $PhoneNumber = isset($request->PhoneNumber) ? $request->PhoneNumber : $user->PhoneNumber;
+                    $EmailAddress = isset($request->EmailAddress) ? $request->EmailAddress : $user->EmailAddress;
+                    $FacebookName = isset($request->FacebookName) ? $request->FacebookName : $user->FacebookName;
+                    $Instagram = isset($request->Instagram) ? $request->Instagram : $user->Instagram;
+                    $Twitter = isset($request->Twitter) ? $request->Twitter : $user->Twitter;
+                    $Weight = isset($request->Weight) ? $request->Weight : $user->Weight;
+                    $Height = isset($request->Height) ? $request->Height : $user->Height;
+                    $PasswordHash = isset($request->Password) ? Hash::make($request->Password) : $user->PasswordHash;
+    
+                    $procedureUpdateName = "sp_updateUser";
+    
+                    DB::statement("EXEC $procedureUpdateName $userId, '$FirstName', '$LastName1', '$LastName2', '$BirthDate', $RoleID, $CountryID, $City, $PhoneNumber, '$EmailAddress', '$FacebookName', '$Instagram', '$Twitter', $Weight, $Height, '$PasswordHash'");
+    
+                    return response()->json([
+                        "status" => 200,
+                        "message" => "User updated"
+                    ], 200);
+                } else {
+                    return response()->json([
+                        "status" => 404,
+                        "message" => "User not found"
+                    ], 404);
+                }
+            }
+        }
+    }
+
+    public function deleteUser($userId){
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+
+            if ((User::where(["id" => $userId]))->exists()){
+                // if exists, it can be deleted
+
+                $procedureName = "sp_deleteUser";
+
+                DB::statement("EXEC $procedureName $userId");
+
+                return response()->json([
+                    "status" => 200,
+                    "message" => "User deleted"
+                ], 200);
+
+            } else {
+                return response()->json([
+                    "status" => 404,
+                    "message" => "User not found"
+                ], 404);
+            }
+        }
+    }
 }

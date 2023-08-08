@@ -3,7 +3,7 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCol, IonContent,
   IonHeader, IonIcon, IonInput, IonItem, IonLabel,
    IonModal,IonText,IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { close } from 'ionicons/icons';
-import './ModalContraseña.css';
+import './ModalPassword.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 

@@ -1,0 +1,42 @@
+.ItemProfile::part(native) {
+    background: #3d91ff20;
+    ;
+    color: #0b0101;
+  
+    border-color: #326a99;
+
+  }
+
+  .mi-item-personalizado {
+    background-color: #f1f1f1; /* Cambia el color de fondo según lo desees */
+    color: #333; /* Cambia el color del texto según lo desees */
+    /* Agrega más estilos aquí según tus necesidades */
+  }
+
+  /* Estilos para el IonItem con la clase "ItemProfile" */
+.ItemProfile::part(native) {
+  background-color: #28547a00; /* Color de fondo */
+  color: #333; /* Color del texto */
+
+
+  /* Sombra para el elemento */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el IonLabel dentro del IonItem */
+.ItemProfile ion-label {
+
+  font-weight: 500; /* Negrita para el texto dentro del IonLabel */
+
+  
+}
+
+/* Estilo para el IonIcon dentro del IonItem */
+.ItemProfile ion-icon {
+  font-size: 24px; /* Tamaño de fuente para el icono dentro del IonIcon */
+  margin-right: 2px; /* Espacio entre el icono y el texto */
+  font-style: initial;
+}
+body {
+    overflow: hidden;
+  }   

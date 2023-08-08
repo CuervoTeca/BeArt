@@ -17,7 +17,7 @@ class PhysicalActivityController extends Controller
             "MuscleGroupID" => "required|integer",
         ]);
 
-        $activity = new Activity();
+        $activity = new PhysicalActivity();
         $activity->ActivityName = $request->ActivityName;
         $activity->CaloriesBurnedPerHour = $request->CaloriesBurnedPerHour;
         $activity->MuscleGroupID = $request->MuscleGroupID;
@@ -58,24 +58,24 @@ class PhysicalActivityController extends Controller
             $userId = Auth::id();
     
             if (PhysicalActivity::where("ActivityID", $activityId)->exists()) {
-                // If the Addiction exists, it can be shown
+                // If the activity exists, it can be shown
     
-                $procedureShowName = "sp_showAddiction";
-                $addiction = DB::select("EXEC $procedureShowName $addictionId");
+                $procedureShowName = "sp_showActivity";
+                $activity = DB::select("EXEC $procedureShowName $activityId");
     
-                if (count($addiction) > 0) {
-                    // Assign the first object in the array to $addiction, as DB::select always returns an array
-                    $addiction = $addiction[0];
+                if (count($activity) > 0) {
+                    // Assign the first object in the array to $activity, as DB::select always returns an array
+                    $activity = $activity[0];
     
                     return response()->json([
                         "status" => 200,
-                        "message" => "Addiction data",
-                        "data" => $addiction
+                        "message" => "Activity data",
+                        "data" => $activity
                     ], 200);
                 } else {
                     return response()->json([
                         "status" => 404,
-                        "message" => "Addiction not found"
+                        "message" => "Activity not found"
                     ], 404);
                 }
             }

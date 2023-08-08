@@ -9,6 +9,8 @@ class PhysicalActivity extends Model
 {
     protected $table = 'Health.PhysicalActivity';
 
+    protected $primaryKey = 'ActivityID';
+
     protected $filllable = [
         'ActivityName',
         'CaloriesBurnedPerHour',

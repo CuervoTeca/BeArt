@@ -2,9 +2,10 @@ import { IonButton, IonModal, IonContent, IonItem, IonInput, IonList } from '@io
 import React, { useState, useRef } from 'react';
 import './ModalUpdatePhysicalActivities.css'
 
-const ModalUpdatePhysicalActivities: React.FC = () => {
+const ModalUpdatePhysicalActivities: React.FC<{ activityId: number | null }> = ({ activityId }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [ActivityId, setActivityId] = useState('');
 
-    const [showModal, setShowModal] = useState(false);
 
     // abrir el modal
   const openModal = () => {
@@ -25,7 +26,7 @@ const ModalUpdatePhysicalActivities: React.FC = () => {
         <IonContent>
           <IonList>
             <IonItem>
-              <IonInput label="Id :" value="01" readonly={true}></IonInput>
+            <IonInput value={activityId}  onIonChange={e => setActivityId(e.detail.value!)} />
             </IonItem>
 
             <IonItem>

@@ -1,18 +1,43 @@
 import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonContent, IonButton, IonIcon, IonPopover, IonList, IonItem } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, restaurantOutline } from 'ionicons/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
 import ModalUpdateDishes from '../../components/ModalUpdateDishes/ModalUpdateDishes';
 import ModalAddDishes from '../../components/ModalAddDishes/ModalAddDishes';
+import axios from 'axios';
 
 import './Dishes.css'
 
 const Dishes: React.FC = () => {
+  const [selectedDishId, setSelectedDishId] = useState<number | null>(null);
+  const openUpdateModal = (dishId: number) => {
+    setSelectedDishId(dishId);
+    // Abre el modal aquí si es necesario
+  };
 
-  const data =[
+  // PARA ELIMINAR
+  const handleDelete = async (dishId: number) => {
+    try {
+      // Envía la solicitud DELETE a la API para borrar el platillo por su ID
+      const response = await axios.delete(`URL_DE_TU_API/${dishId}`);
+      console.log('Respuesta de la API:', response.data);
+  
+      // Actualiza los datos en la vista (puedes recargar los datos desde la API o simplemente eliminar el elemento del estado)
+      // Por ejemplo, si estás usando estado para almacenar los datos:
+      const updatedData = data.filter(item => item.DishId !== dishId);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Error al borrar el platillo:', error);
+      console.log(dishId)
+    }
+  };
+  
+  
+  
+  const [data, setData] = useState([
     {
-      DishId: 1,
+      DishId: '1',
       DishName: "Paella",
       NutritionFactsId: 10,
       Calories: 1000000,
@@ -71,7 +96,7 @@ const Dishes: React.FC = () => {
       Carbs: 0,
       Protein: 15
     }
-  ]
+  ]);
 
   const columns =[
     {
@@ -143,13 +168,18 @@ const Dishes: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton id={row.DishId + "dish"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
-            <IonPopover trigger={row.DishId + "dish"} triggerAction="click" className='IonPopover'>
-                <IonContent className="RowModal"> 
-                      <ModalUpdateDishes></ModalUpdateDishes>
-                      <IonButton id={row.DishId + "dish"} fill='clear' color="danger"><IonIcon icon={trashOutline}/> Borrar </IonButton>
+            <IonButton fill='clear' id={row.DishId + 'dish'} onClick={() => openUpdateModal(row.DishId)}>
+              <IonIcon icon={ellipsisVerticalOutline} /></IonButton>
+              <IonPopover trigger={row.DishId + "dish"} triggerAction="click" className='IonPopover'>
+                <IonContent className='RowModal'>
+                  <ModalUpdateDishes dishId={selectedDishId} />
+                  {/* Resto de los elementos en el popover */}
+                  {/* Botón para borrar */}
+               <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.DishId)}>
+                 <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
-            </IonPopover>
+              </IonPopover>
+              
       </> ,
       allowOverflow: true,
       button: true,
@@ -178,7 +208,7 @@ const Dishes: React.FC = () => {
                       data = {data}
                       pagination
                     />
-                    <ModalAddDishes></ModalAddDishes>
+                    <ModalAddDishes  dishId={selectedDishId}></ModalAddDishes>
                 </IonCardContent>
                 </IonCard>
               </IonCol>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading} from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading, IonCard, IonCardContent} from '@ionic/react';
 import axios from 'axios';
 import './Login.css';
 import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
@@ -59,16 +59,13 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen className='LoginPage'>
-        <IonHeader>
-        </IonHeader>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
-              <img src={logo} alt="Logo" className="logo" />
-            </IonCol>
-            <IonCol size="12" size-lg="6" class="ion-show-sm ion-align-items-center">
-            <div className="form-container">
+      <IonContent>
+        <div className="center-container"> 
+        <IonCard>
+          <IonCardContent>
+            <IonRow>
+              <IonCol>
+                <div className="form-container">
                 <IonInput
                   type="email"
                   placeholder="Correo electrónico"
@@ -84,23 +81,28 @@ const Login: React.FC = () => {
                   className="button-margin"
                 />
                 <IonButton expand='full' fill='solid' onClick={handleLogin} className="button-margin">
-                    Acceso
+                  Acceso
                 </IonButton>
-          <ModalPassword></ModalPassword>
+                <ModalPassword></ModalPassword>
                 <ModalSignUp />
-              </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+                </div>
+              </IonCol>
+              <IonCol>
+                <img src={logo} alt="Logo" className="logo" />
+              </IonCol>
+            </IonRow>
+          </IonCardContent>
+        </IonCard>
+        </div>
       </IonContent>
-      
+
       <ToastsComponent
         showSuccessAccesoToast={showSuccessAccesoToast}
         showInvalidDataToast={showInvalidDataToast}
         setShowSuccessAccesoToast={setShowSuccessAccesoToast}
         setShowInvalidDataToast={setShowInvalidDataToast}
       />
-  <IonLoading
+      <IonLoading
         isOpen={isLoading}
         message={'Cargando...'}
         duration={2000} // Duración de la pantalla de carga (3 segundos en este caso)

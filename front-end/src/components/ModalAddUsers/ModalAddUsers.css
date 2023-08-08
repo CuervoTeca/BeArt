@@ -1,0 +1,16 @@
+.ion-color-users {
+    --ion-color-base: var(--ion-color-users);
+    --ion-color-base-rgb: var(--ion-color-users-rgb);
+    --ion-color-contrast: var(--ion-color-users-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-users-contrast-rgb);
+    --ion-color-shade: var(--ion-color-users-shade);
+    --ion-color-tint: var(--ion-color-users-tint);  
+}
+
+ion-modal {
+    --width: 50%;
+  }
+
+  .closeIconfont:hover {
+    transform: scale(1.1);
+  }

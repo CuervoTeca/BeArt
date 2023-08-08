@@ -1,7 +1,7 @@
 .SignUp{ 
     margin: 5% 0% 0% 24%;}
 
-.Close{
+.Close {
     display: inline-table;
     display: flex;
     flex-direction: row;
@@ -10,17 +10,21 @@
     justify-content: space-between;
     align-items: center;
 }
-.SignUpModal{
+
+.SignUpModal {
     background-color: black;
     background: fixed;
 }
-.textSignUp{
+
+.textSignUp {
     font-size: xx-small;  
 }
-.IconClose{
+
+.IconClose {
     background-color: black;
     background: fixed;
 }
+
 .button-margin {
     margin: 18px 0;
   }

@@ -1,0 +1,9 @@
+.guardarButton {
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    justify-content: flex-end;
+}

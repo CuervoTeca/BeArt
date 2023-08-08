@@ -64,95 +64,92 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
   
   return (
     <>
-    <IonButton expand="full" color="secondary" onClick={openModal}>
+      <IonButton expand="full" color="secondary" onClick={openModal}>
         Crear una cuenta
-    </IonButton>
-    <IonModal isOpen={showModal} onDidDismiss={closeModal}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle size='large'>
-            <div className="Close">
-            Crear una cuenta
-              <IonButtons slot="end" onClick={closeModal}>
-                <IonIcon slot="icon-only" icon={close} />
-              </IonButtons>
-            </div>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonCard>
-          <IonCardContent>
-            <form onSubmit={handleRegister}>
-              <IonItem>
-                <IonLabel position="floating">Nombre</IonLabel>
-                <IonInput
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onIonChange={handleInputChange}
-                  required
-                />
-              </IonItem>
-              <IonItem>
-              <IonLabel position="floating">Apellido</IonLabel>
-              <IonInput
-                type="text"
-                name="lastname" // Nombre del campo de apellido
-                value={formData.lastname}
-                onIonChange={handleInputChange}
-                required
-                />
-              </IonItem>
-              <IonItem>
-                <IonLabel position="floating">Correo electrónico</IonLabel>
-                <IonInput
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onIonChange={handleInputChange}
-                  required
-                />
-              </IonItem>
-              <IonItem>
-                <IonLabel position='stacked'>Fecha de nacimiento</IonLabel>
-                <IonInput
-                  type="date"
-                  name="birthday"
-                  value={formData.birthday}
-                  onIonChange={handleInputChange}
-                  required
-                />
-              </IonItem>
-              <IonItem>
-                <IonLabel position="floating">Contraseña</IonLabel>
-                <IonInput
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onIonChange={handleInputChange}
-                  required
-                  minlength={6}
-                />
-                {formData.password.length < 8 && (
-                  <IonText color="danger" >La contraseña debe tener al menos 8 caracteres.</IonText>
-              )}
+      </IonButton>
+      <IonModal isOpen={showModal} onDidDismiss={closeModal}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle size='large'>
+              <div className="Close">
+                Crear una cuenta
+                <IonButtons slot="end" onClick={closeModal}>
+                  <IonIcon slot="icon-only" className='closeIconfont' icon={close} />
+                </IonButtons>
+              </div>
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonCard>
+            <IonCardContent>
+              <form onSubmit={handleRegister}>
+                <IonItem>
+                  <IonLabel position="floating">Nombre</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Apellido</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="lastname" // Nombre del campo de apellido
+                    value={formData.lastname}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Correo electrónico</IonLabel>
+                  <IonInput
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position='stacked'>Fecha de nacimiento</IonLabel>
+                  <IonInput
+                    type="date"
+                    name="birthday"
+                    value={formData.birthday}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Contraseña</IonLabel>
+                  <IonInput
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onIonChange={handleInputChange}
+                    required
+                    minlength={6}
+                  />
+                  {formData.password.length < 8 && (
+                    <IonText color="danger" >La contraseña debe tener al menos 8 caracteres.</IonText>
+                  )}
 
-              </IonItem>
-              <IonButton className="button-margin" expand="full" type="submit">
-                Registrarse
-              </IonButton>
-            </form>
-          </IonCardContent>
-        </IonCard>
+                </IonItem>
+              </form>
+            </IonCardContent>
+          </IonCard>
+          <IonToast
+            isOpen={true} // El Toast se mostrará automáticamente cuando se renderice
+            onDidDismiss={() => { }}
+            message="Registro exitoso!"
+            duration={3000}
+          />
+        </IonContent>
         <IonToast
-          isOpen={true} // El Toast se mostrará automáticamente cuando se renderice
-          onDidDismiss={() => {}}
-          message="Registro exitoso!"
-          duration={3000}
-        />
-      </IonContent>
-      <IonToast
           isOpen={ShowSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           message="Registro exitoso!"
@@ -164,8 +161,9 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
           message="Nombre o correo en uso."
           duration={5000}
         />
-    </IonModal>
-  </>
+        <IonButton expand="full" type="submit"> Registrarse </IonButton>
+      </IonModal>
+    </>
   );
 }
 

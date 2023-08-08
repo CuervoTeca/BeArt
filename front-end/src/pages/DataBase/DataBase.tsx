@@ -14,7 +14,7 @@ const DataBase: React.FC = () => {
       <div id='div-content'>
         <IonContent>
           <IonGrid>
-          <IonRow><IonCol><h1> <IonIcon icon={serverOutline} /> Base de datos</h1></IonCol></IonRow>
+          <IonRow><IonCol><h1  id='DatabaseTitle'> <IonIcon icon={serverOutline} /> Base de datos</h1></IonCol></IonRow>
             <IonCard>
               <IonCardHeader>
                 <h1>Respaldos</h1>
@@ -28,9 +28,11 @@ const DataBase: React.FC = () => {
                     </IonCardHeader>
                     <IonCardContent>Crear un respaldo completo implica hacer una copia de seguridad de todos los datos y archivos relevantes de una base de datos,
                       sistema o dispositivo en un momento específico. Esto incluye todos los registros, tablas, configuraciones y otros elementos necesarios para restaurar
-                      completamente el sistema a su estado original en caso de pérdida de datos, corrupción o fallo del sistema.</IonCardContent>
+                      completamente el sistema a su estado original en caso de pérdida de datos, corrupción o fallo del sistema.
+                      <hr></hr>
+                      <IonButton expand="block" color="success">Crear</IonButton>
+                    </IonCardContent>
                   </IonCard>
-                  <IonButton expand="block" color="success">Crear</IonButton>
                 </IonCol>
 
                 <IonCol>
@@ -42,9 +44,11 @@ const DataBase: React.FC = () => {
                     <IonCardContent>Recuperar un respaldo implica restaurar los datos almacenados previamente en una copia de seguridad
                       a un sistema o base de datos después de que se haya producido
                       una pérdida de datos o un problema grave. Al recuperar un respaldo, se devuelve el sistema a un estado anterior donde los
-                      datos estaban intactos antes del evento problemático.</IonCardContent>
+                      datos estaban intactos antes del evento problemático.
+                      <hr></hr>
+                      <IonButton expand="block" color="primary">Recuperar</IonButton>
+                    </IonCardContent>
                   </IonCard>
-                  <IonButton expand="block" color="warning">Recuperar</IonButton>
                 </IonCol>
 
                 </IonRow>
@@ -62,9 +66,11 @@ const DataBase: React.FC = () => {
                     </IonCardHeader>
                     <IonCardContent>Reiniciar tablas se refiere a borrar o eliminar todos los datos contenidos en una o varias tablas de una base de datos,
                       sin afectar la estructura de la base de datos en sí.
-                      Esto es útil en situaciones en las que se necesite limpiar los datos almacenados y comenzar desde cero sin tener que borrar toda la base de datos.</IonCardContent>
+                      Esto es útil en situaciones en las que se necesite limpiar los datos almacenados y comenzar desde cero sin tener que borrar toda la base de datos.
+                      <hr></hr>
+                      <IonButton expand="block" color="danger">Reiniciar</IonButton>
+                    </IonCardContent>
                   </IonCard>
-                  <IonButton expand="block" color="danger">Reiniciar</IonButton>
                 </IonCol>
                 </IonRow>
               

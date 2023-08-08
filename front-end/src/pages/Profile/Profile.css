@@ -81,10 +81,6 @@ ion-input {
   background-color: blueviolet;
 }
 
-ion-col {
-  border: solid 1px  #726e6e12;
-}
-
 .settingsOutlineStyle{
   width: 100%;
   text-overflow: ellipsis;

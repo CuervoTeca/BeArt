@@ -18,6 +18,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
+      setIsLoading(true); // Mostrar pantalla de carga
       const response = await axios.post('http://127.0.0.1:8000/api/login', {
         EmailAddress: EmailAddress,
         Password: Password
@@ -27,10 +28,15 @@ const Login: React.FC = () => {
       // Guardar el token en el almacenamiento local para mantenerlo durante la sesión
       localStorage.setItem('accessToken', accessToken);
 
+      setIsLoading(false); // Ocultar pantalla de carga
+
       // Aquí puedes redirigir a otra página o realizar otras operaciones después del inicio de sesión exitoso
       history.push('/homeAdmin');
 
     } catch (error) {
+      // Mostrar el Toast de datos no válidos
+      setShowInvalidDataToast(true);
+      setIsLoading(false); // Ocultar pantalla de carga
       console.error('Error during login:', error);
     }
   };

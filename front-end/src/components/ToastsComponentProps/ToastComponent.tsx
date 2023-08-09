@@ -19,13 +19,13 @@ const ToastsComponent: React.FC<ToastsComponentProps> = ({
       <IonToast
         isOpen={showSuccessAccesoToast}
         onDidDismiss={() => setShowSuccessAccesoToast(false)}
-        message="Acceso válido!"
+        message="Sesión iniciada correctamente. ¡Bienvenido!"
         duration={3000}
       />
       <IonToast
         isOpen={showInvalidDataToast}
         onDidDismiss={() => setShowInvalidDataToast(false)}
-        message="Datos no válidos. Por favor, verifica tus credenciales."
+        message="Correo electrónico o contraseña incorrectos. Por favor, verifica tus credenciales."
         duration={3000}
       />
     </>

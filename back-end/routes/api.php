@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\MuscleGroupController;
 use App\Http\Controllers\Api\AddictionController;
 use App\Http\Controllers\Api\PhysicalActivityController;
 use App\Http\Controllers\Api\BackupController;
+use App\Http\Controllers\Api\DashboardController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -50,6 +51,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //protected backup routes
     Route::post("createBackup", [BackupController::class, 'createBackup']);
+
+    //protected dashboard routes
+    Route::get("getDashboardStats", [DashboardController::class, 'getDashboardStats']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

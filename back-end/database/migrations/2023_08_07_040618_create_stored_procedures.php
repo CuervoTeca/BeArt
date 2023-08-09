@@ -328,6 +328,18 @@ return new class extends Migration
             NAME = @Name
         END";
 
+        $getDashboardStats = 'CREATE PROCEDURE sp_getDashboardStats
+        AS
+        BEGIN
+            SELECT 
+                (SELECT COUNT(*) FROM Health.Dish) AS TotalDishes,
+                (SELECT COUNT(*) FROM Health.Addiction) AS TotalAddictions,
+                (SELECT COUNT(*) FROM Health.PhysicalActivity) AS TotalActivities,
+                (SELECT COUNT(*) FROM Users.Users WHERE Users.RoleID = 1 OR Users.RoleID = 2 OR Users.RoleID = 3) AS TotalEmployees,
+                (SELECT COUNT(*) FROM Users.Users WHERE Users.RoleID = 4) AS TotalUsers,
+                (SELECT COUNT(*) FROM [dbo].[Backup]) AS TotalBackups;
+        END';
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($listUsers);
@@ -346,6 +358,7 @@ return new class extends Migration
         DB::statement($showActivity);
         DB::statement($updateActivity);
         DB::statement($insertBackup);
+        DB::statement($getDashboardStats);
     }
 
     /**
@@ -371,5 +384,6 @@ return new class extends Migration
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showActivity;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateActivity;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_insertBackup;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_getDashboardStats;');
     }
 };

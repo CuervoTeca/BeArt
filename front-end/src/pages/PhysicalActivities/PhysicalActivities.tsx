@@ -1,6 +1,6 @@
 import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonButton, IonContent, IonPopover, IonIcon } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, heartOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
 import './PhysicalActivities.css'
@@ -31,21 +31,37 @@ const PhysicalActivities: React.FC = () => {
     }
   };
 
-  const [data, setData] = useState([
-    {
-      ActivityId: 1,
-      ActivityName: "Lagartijas",
-      CaloriesBuredPerHour: 150,
-      MuscleGroupId: 5,
-      MuscleName: "Pecho",
+  const [physicalActivities, setDishes] = useState([]);
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    // Obtén el token de autenticación (por ejemplo, desde localStorage)
+    const storedToken = localStorage.getItem('accessToken');
+    console.log(storedToken)
+    if (storedToken) {
+      setToken(storedToken);
     }
-  ])
+
+    // Realiza la solicitud GET a la API con el token en la cabecera
+    axios.get('http://127.0.0.1:8000/api/listActivities', {
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    })
+      .then(response => {
+        setDishes(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
+  }, [token]);
 
   const columns =[
     {
       id: "topPhysicalActivities",
       name: 'Id',
-      selector: row => row.ActivityId,
+      selector: row => row.ActivityID,
       sortable: true,
     },
     {
@@ -57,28 +73,22 @@ const PhysicalActivities: React.FC = () => {
     {
       id: "topPhysicalActivities",
       name: 'Calorias quemadas por hora',
-      selector: row => row.CaloriesBuredPerHour,
-      sortable: true,
-    },
-    {
-      id: "topPhysicalActivities",
-      name: 'Grupo muscular',
-      selector: row => row.MuscleGroupId,
+      selector: row => row.CaloriesBurnedPerHour,
       sortable: true,
     },
     {
       id: "topPhysicalActivities",
       name: 'Musculo nombre',
-      selector: row => row.MuscleName,
+      selector: row => row.MuscleGroupName,
       sortable: true,
     },
     {
       cell: row => <>
-            <IonButton id={row.ActivityId + "PhysicalActivities"} fill='clear' onClick={() => openUpdateModal(row.ActivityId)}><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
-            <IonPopover trigger={row.ActivityId + "PhysicalActivities"} triggerAction="click" className='IonPopover'>
+            <IonButton id={row.ActivityID + "PhysicalActivities"} fill='clear' onClick={() => openUpdateModal(row.ActivityID)}><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
+            <IonPopover trigger={row.ActivityID + "PhysicalActivities"} triggerAction="click" className='IonPopover'>
                 <IonContent className="RowModal">
                 <ModalUpdatePhysicalActivities activityId={selectedActivityId}></ModalUpdatePhysicalActivities>
-                <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.ActivityId)}>
+                <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.ActivityID)}>
                  <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
               </IonPopover>
@@ -106,7 +116,7 @@ const PhysicalActivities: React.FC = () => {
                   <IonCardContent>
                     <DataTable
                       columns = {columns}
-                      data = {data}
+                      data = {physicalActivities.data}
                       pagination
                     />
                   <ModalAddPhysicalActivities activityId={selectedActivityId}></ModalAddPhysicalActivities>

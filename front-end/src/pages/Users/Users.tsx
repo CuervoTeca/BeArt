@@ -1,8 +1,9 @@
 import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonIcon, IonPopover, IonPage, IonContent, IonButton } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, people } from 'ionicons/icons';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
+import axios from 'axios';
 
 import './Users.css'
 import ModalUpdateUsers from '../../components/ModalUpdateUsers/ModalUpdateUsers';
@@ -10,34 +11,37 @@ import ModalAddUsers from '../../components/ModalAddUsers/ModalAddUsers';
 
 const Users: React.FC = () => {
 
-  const data =[
-    {
-      Id: 1,
-      FirstName: "Cris",
-      LastName1: "Lopez",
-      LastName2: "Baut",
-      BirthDate: "2002-08-14",
-      CreatedAt: "2023-08-07 23:50:34.760",
-      RoleName: "Dueño",
-      CountryName: "Australia",
-      City: "Tijuana",
-      PhoneNumber: "6641555429",
-      EmailAddress: "test@test.com",
-      FacebookName: "facebook name",
-      Instagram: "instagram",
-      Twitter: "twitter",
-      Weight: "55.00",
-      Height: "1.70",
-      LastUpdatedAt: "2023-08-07 23:50:34.760",
-      Age: "21"
+  const [users, setDishes] = useState([]);
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    // Obtén el token de autenticación (por ejemplo, desde localStorage)
+    const storedToken = localStorage.getItem('accessToken');
+    console.log(storedToken)
+    if (storedToken) {
+      setToken(storedToken);
     }
-  ]
+
+    // Realiza la solicitud GET a la API con el token en la cabecera
+    axios.get('http://127.0.0.1:8000/api/listUsers', {
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    })
+      .then(response => {
+        setDishes(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
+  }, [token]);
 
   const columns =[
     {
       id: "topUsers",
       name: 'Id',
-      selector: row => row.Id,
+      selector: row => row.id,
       sortable: true,
     },
     {
@@ -66,20 +70,14 @@ const Users: React.FC = () => {
     },
     {
       id: "topUsers",
-      name: 'CreatedAt',
-      selector: row => row.CreatedAt,
+      name: 'Role ID',
+      selector: row => row.RoleID,
       sortable: true,
     },
     {
       id: "topUsers",
-      name: 'RoleName',
-      selector: row => row.RoleName,
-      sortable: true,
-    },
-    {
-      id: "topUsers",
-      name: 'CountryName',
-      selector: row => row.CountryName,
+      name: 'Country ID',
+      selector: row => row.CountryID,
       sortable: true,
     },
     {
@@ -131,18 +129,6 @@ const Users: React.FC = () => {
       sortable: true,
     },
     {
-      id: "topUsers",
-      name: 'LastUpdatedAt',
-      selector: row => row.LastUpdatedAt,
-      sortable: true,
-    },
-    {
-      id: "topUsers",
-      name: 'Age',
-      selector: row => row.Age,
-      sortable: true,
-    },
-    {
       cell: row => <>
             <IonButton id={row.ActivityId + "Users"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
             <IonPopover trigger={row.ActivityId + "Users"} triggerAction="click" className='IonPopover'>
@@ -176,7 +162,7 @@ const Users: React.FC = () => {
                   <IonCardContent>
                     <DataTable
                       columns = {columns}
-                      data = {data}
+                      data = {users.data}
                       pagination
                     />
                     <ModalAddUsers></ModalAddUsers>

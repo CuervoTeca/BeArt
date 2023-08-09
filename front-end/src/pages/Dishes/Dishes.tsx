@@ -17,19 +17,20 @@ const Dishes: React.FC = () => {
   };
 
   // PARA ELIMINAR
-  const handleDelete = async (dishId: number) => {
+  const handleButtonClick = async (dishId: string) => {
     try {
-      // Envía la solicitud DELETE a la API para borrar el platillo por su ID
-      const response = await axios.delete(`URL_DE_TU_API/${dishId}`);
-      console.log('Respuesta de la API:', response.data);
-  
-      // Actualiza los datos en la vista (puedes recargar los datos desde la API o simplemente eliminar el elemento del estado)
-      // Por ejemplo, si estás usando estado para almacenar los datos:
-      const updatedData = data.filter(item => item.DishId !== dishId);
-      setData(updatedData);
+      const response = await axios.delete('http://127.0.0.1:8000/api/deleteDish/' + dishId, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('bien') 
+     }
+
     } catch (error) {
-      console.error('Error al borrar el platillo:', error);
-      console.log(dishId)
+      console.error('Error al registrar usuario:', error);
     }
   };
 
@@ -70,13 +71,6 @@ const Dishes: React.FC = () => {
       id: "topDishes",
       name: 'Nombre del platillo',
       selector: row => row.DishName,
-      sortable: true,
-
-    },
-    {
-      id: "topDishes",
-      name: 'Datos de nutricion Id',
-      selector: row => row.NutritionFactsId,
       sortable: true,
 
     },
@@ -136,7 +130,7 @@ const Dishes: React.FC = () => {
                   <ModalUpdateDishes dishId={selectedDishId} />
                   {/* Resto de los elementos en el popover */}
                   {/* Botón para borrar */}
-               <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.DishID)}>
+               <IonButton fill='clear' color="danger" onClick={() => handleButtonClick(row.DishID)}>
                  <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
               </IonPopover>
@@ -169,7 +163,7 @@ const Dishes: React.FC = () => {
                       data = {dishes.data}
                       pagination
                     />
-                    <ModalAddDishes  dishId={selectedDishId}></ModalAddDishes>
+                    <ModalAddDishes></ModalAddDishes>
                 </IonCardContent>
                 </IonCard>
               </IonCol>

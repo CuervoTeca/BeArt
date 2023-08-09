@@ -64,7 +64,6 @@ const Login: React.FC = () => {
                 <IonButton expand='full' fill='solid' onClick={handleLogin} className="button-margin">
                   Acceder
                 </IonButton>
-                <ModalPassword></ModalPassword>
                 <ModalSignUp />
                 </div>
               </IonCol>

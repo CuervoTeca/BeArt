@@ -1,5 +1,5 @@
-import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem, IonIcon, IonInput, IonList, IonButtons, IonLabel } from '@ionic/react';
-import React, { useState } from 'react';
+import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem, IonIcon, IonInput, IonList, IonButtons, IonLabel, IonCard } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
 import './ModalUpdateDishes.css';
 import axios from 'axios';
 import { close } from 'ionicons/icons';
@@ -7,6 +7,24 @@ import { close } from 'ionicons/icons';
 const ModalUpdateDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
   const [DishId, setIdAddicton] = useState('');
   const [showModal, setShowModal] = useState(false);
+
+  var [formData, setFormData] = useState({
+    DishName: '',
+    Calories: '',
+    Fats: '',
+    Collesterol: "",
+    Sodium: "",
+    Fiber: "",
+    Carbs: "",
+    Protein: ""
+  });
+
+  const handleInputChange = (event: any) => {
+    // Extraer el nombre y el valor del campo de entrada del evento
+    const { name, value } = event.target;
+    // Actualizar el estado del formulario (formData) con los nuevos valores
+    setFormData({ ...formData, [name]: value, });
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -16,93 +34,116 @@ const ModalUpdateDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
     setShowModal(false);
     };
 
-    const handleUpdate = () => {
-      // Aquí debes implementar la lógica para manejar la actualización de adicción
-      const updatedData = {
-        id: DishId
-      };
-  axios.put(`URL_DE_TU_API/${DishId}`, updatedData)
-  .then(response => {
-    // Manejar la respuesta de la API y actualizar la vista si es necesario
-    console.log('Respuesta de la API:', response.data);
-    // Por ejemplo, podrías cerrar el modal después de la actualización
-    closeModal();
-  })
-  .catch(error => {
-    // Manejar los errores
-    console.log(updatedData);
-    console.error('Error al actualizar la adicción:', error);
-  });
-};
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+      // Obtén el token de autenticación (por ejemplo, desde localStorage)
+      const storedToken = localStorage.getItem('accessToken');
+
+      if (storedToken) {
+        setToken(storedToken);
+      }  
+    }, [token]);
+
+    // Realiza la solicitud GET a la API con el token en la cabecera
+    const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+    
+      try {      
+        const response = await axios.put('http://127.0.0.1:8000/api/updateDish/' + dishId, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.status === 200) {
+          closeModal(); // Cerrar el modal después de un registro exitoso
+        }
+      } catch (error) {
+        console.error('Error al registrar usuario:', error);
+      }
+    };
 
   return (
-<>
-    <IonButton fill="clear"  color="secondary" onClick={openModal}>
-    Actualizar
-    </IonButton>
+    <>
+      <IonButton fill="clear" color="secondary" onClick={openModal}>
+        Actualizar
+      </IonButton>
 
-    <IonModal isOpen={showModal} onDidDismiss={closeModal}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle size='large'>
-            <div className="Close">
-              Actualizar adicción
-              <IonButtons slot="end" onClick={closeModal}>
-                <IonIcon slot="icon-only" icon={close} />
-              </IonButtons>
-            </div>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-          <IonList>
-          <IonItem>
-                <IonLabel position="floating">ID:</IonLabel>
-                <IonInput value={dishId}  onIonChange={e => setIdAddicton(e.detail.value!)} />
-              </IonItem>
-            <IonItem>
-              <IonInput label="Nombre del platillo :"></IonInput>
-            </IonItem>
+      <IonModal isOpen={showModal} onDidDismiss={closeModal}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle size='large'>
+              <div className="Close">
+                Actualizar adicción
+                <IonButtons slot="end" onClick={closeModal}>
+                  <IonIcon slot="icon-only" icon={close} />
+                </IonButtons>
+              </div>
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
 
-            <IonItem>
-              <IonInput label="Datos de nutricion Id : " value="01" readonly={true}></IonInput>
-            </IonItem>
+        <IonContent>
+          <div id="modal-content">
+            <IonCard>
+              <IonList>
+                <form onSubmit={handleUpdate}>
 
-            <IonItem>
-              <IonInput label="Calorias : " placeholder=""></IonInput>
-            </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating" >Id del platillo:</IonLabel>
+                    <IonInput value={dishId} readonly={true} />
+                  </IonItem>
 
-            <IonItem>
-              <IonInput label="Grasas : " placeholder=""></IonInput>
-            </IonItem>
 
-            <IonItem>
-              <IonInput label="Colesterol : " placeholder=""></IonInput>
-            </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating">Nombre del platillo:</IonLabel>
+                    <IonInput type="text" name="DishName" value={formData.DishName} onIonChange={handleInputChange} required />
+                  </IonItem>
 
-            <IonItem>
-              <IonInput label="Sales : " placeholder=""></IonInput>
-            </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating">Calorías:</IonLabel>
+                    <IonInput type="number" name="Calories" value={formData.Calories} onIonChange={handleInputChange} required />
+                  </IonItem>
 
-            <IonItem>
-              <IonInput label="Fibras : " placeholder=""></IonInput>
-            </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating">Grasas:</IonLabel>
+                    <IonInput type="number" name="Fats" value={formData.Fats} onIonChange={handleInputChange} required />
+                  </IonItem>
 
-            <IonItem>
-              <IonInput label="Carbohidratos : " placeholder=""></IonInput>
-            </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating">Colesterol:</IonLabel>
+                    <IonInput type="number" name="Collesterol" value={formData.Collesterol} onIonChange={handleInputChange} required />
+                  </IonItem>
 
-            <IonItem>
-              <IonInput label="Proteina : " placeholder=""></IonInput>
-            </IonItem>
-          </IonList>
-          <div className='guardarButton'>
-          <IonButton expand="full" onClick={handleUpdate}>Guardar</IonButton>
-        </div>
+                  <IonItem>
+                    <IonLabel position="floating">Sales:</IonLabel>
+                    <IonInput type="number" name="Sodium" value={formData.Sodium} onIonChange={handleInputChange} required />
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel position="floating">Fibras:</IonLabel>
+                    <IonInput type="number" name="Fiber" value={formData.Fiber} onIonChange={handleInputChange} required />
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel position="floating">Carbohidratos:</IonLabel>
+                    <IonInput type="number" name="Carbs" value={formData.Carbs} onIonChange={handleInputChange} required />
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel position="floating">Proteína:</IonLabel>
+                    <IonInput type="number" name="Protein" value={formData.Protein} onIonChange={handleInputChange} required />
+                  </IonItem>
+
+                  <IonButton expand="full" type="submit">Actualizar</IonButton>
+                </form>
+              </IonList>
+            </IonCard>
+          </div>
         </IonContent>
-    </IonModal>
-
-</>
+      </IonModal>
+    </>
 );
 };
 

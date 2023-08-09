@@ -30,8 +30,8 @@ class UserController extends Controller
             "FacebookName" => "max:50",
             "Instagram" => "max:20",
             "Twitter" => "max:20",
-            "Weight" => "required|decimal:(max:3),2",
-            "Height" => "required|decimal:(max:2),2",
+            "Weight" => "required|decimal:(max:5),2",
+            "Height" => "required|decimal:(max:4),2",
             "Password" => "min:8|confirmed",
         ]);
 

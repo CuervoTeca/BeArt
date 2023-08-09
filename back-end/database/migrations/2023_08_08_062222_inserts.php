@@ -421,6 +421,11 @@ return new class extends Migration
             ('Paseo en Bicicleta Estacionaria', 250, 7),
             ('Fondos en Paralelas', 200, 5),
             ('Press de Hombros', 260, 10);");
+
+            $hash = '$2y$10$LXUiwzFECyU1.CW0mJcWgOWQAD0afGRNoAgtOVDrlx1v9g5WM5dkq';
+
+            DB::statement("EXEC sp_insertUser 'Admin', 'Be', 'Art', '2002-08-14', 'Tijuana', 42, '6641555429', 'admin@beart.com', 'BeArt', 'be_art', '@BeArt', 0.0, 0.0, '$hash'");
+
     }
 
     /**

@@ -51,26 +51,21 @@ const [ShowSuccessToast, setShowSuccessToast] = useState(false);
 const [ShowErrorToast, setShowErrorToast] = useState(false);
  
   //Publica el registro en la api
-  const handleRegister = async (event: any) => {
-    event.preventDefault();
+  const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+  
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
-      console.log(response.data); // La respuesta del servidor, por ejemplo, mensaje de éxito o error
-     // Cerrar Modal
-     setTimeout(() => {
-      closeModal();
-    }, 3000);
-
-      // Mostrar el mensaje de éxito
-      setShowSuccessToast(true);
-      console.log('SUUUUUUUUPEEEER!');
+      if (response.status === 200) {
+        setShowSuccessToast(true); // Mostrar el toast de éxito
+        closeModal(); // Cerrar el modal después de un registro exitoso
+      }
     } catch (error) {
-      console.error(error)
-      setShowErrorToast(true);
-      // Manejar el error en caso de que ocurra
-
+      setShowErrorToast(true); // Mostrar el toast de error
+      console.error('Error al registrar usuario:', error);
     }
   };
+  
   
   return (
     <>
@@ -139,6 +134,15 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
                     type="text"
                     name="City"
                     value={formData.City}
+                    onIonChange={handleInputChange}
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Teléfono*</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="PhoneNumber"
+                    value={formData.PhoneNumber}
                     onIonChange={handleInputChange}
                   />
                 </IonItem>
@@ -227,6 +231,7 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
                     <IonText color="danger">Las contraseñas no coinciden.</IonText>
                   )}
                 </IonItem>
+                <IonButton expand="full" type="submit"> Registrarse </IonButton>
               </form>
             </IonCardContent>
           </IonCard>
@@ -240,16 +245,15 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
         <IonToast
           isOpen={ShowSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
-          message="Registro exitoso!"
+          message="¡Registro exitoso!"
           duration={3000}
         />
         <IonToast
           isOpen={ShowErrorToast}
           onDidDismiss={() => setShowErrorToast(false)}
-          message="Nombre o correo en uso."
+          message="No fue posible registrar, verifica tus datos."
           duration={5000}
         />
-        <IonButton expand="full" type="submit"> Registrarse </IonButton>
       </IonModal>
     </>
   );

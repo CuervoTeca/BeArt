@@ -14,11 +14,21 @@ const ModalSignUp: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   // Data
   const [formData, setFormData] = useState({
-    name: '',
-    lastname: '',
-    email: '',
-    birthday:'',
-    password: '',
+    FirstName: "",
+    LastName1: "",
+    LastName2: "",
+    BirthDate: "",
+    City: "",
+    CountryID: 1,
+    PhoneNumber: "",
+    EmailAddress: "",
+    FacebookName: "",
+    Instagram: "",
+    Twitter: "",
+    Weight: 0.00,
+    Height: 0.0,
+    Password: "",
+    Password_confirmation: ""
   });
   // abrir el modal
   const openModal = () => {
@@ -85,59 +95,137 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
             <IonCardContent>
               <form onSubmit={handleRegister}>
                 <IonItem>
-                  <IonLabel position="floating">Nombre</IonLabel>
+                  <IonLabel position="floating">Nombre*</IonLabel>
                   <IonInput
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="FirstName"
+                    value={formData.FirstName}
                     onIonChange={handleInputChange}
                     required
                   />
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="floating">Apellido</IonLabel>
+                  <IonLabel position="floating">Apellido Paterno*</IonLabel>
                   <IonInput
                     type="text"
-                    name="lastname" // Nombre del campo de apellido
-                    value={formData.lastname}
+                    name="LastName1" // Nombre del campo de apellido
+                    value={formData.LastName1}
                     onIonChange={handleInputChange}
                     required
                   />
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="floating">Correo electrónico</IonLabel>
+                  <IonLabel position="floating">Apellido Materno</IonLabel>
                   <IonInput
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    name="LastName2"
+                    value={formData.LastName2}
                     onIonChange={handleInputChange}
-                    required
                   />
                 </IonItem>
                 <IonItem>
-                  <IonLabel position='stacked'>Fecha de nacimiento</IonLabel>
+                  <IonLabel position='stacked'>Fecha de nacimiento*</IonLabel>
                   <IonInput
                     type="date"
-                    name="birthday"
-                    value={formData.birthday}
+                    name="BirthDate"
+                    value={formData.BirthDate}
                     onIonChange={handleInputChange}
                     required
                   />
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="floating">Contraseña</IonLabel>
+                  <IonLabel position="floating">Ciudad</IonLabel>
                   <IonInput
-                    type="password"
-                    name="password"
-                    value={formData.password}
+                    type="text"
+                    name="City"
+                    value={formData.City}
+                    onIonChange={handleInputChange}
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Correo electrónico*</IonLabel>
+                  <IonInput
+                    type="email"
+                    name="EmailAddress"
+                    value={formData.EmailAddress}
                     onIonChange={handleInputChange}
                     required
-                    minlength={6}
                   />
-                  {formData.password.length < 8 && (
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Nombre de Facebook</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="FacebookName"
+                    value={formData.FacebookName}
+                    onIonChange={handleInputChange}
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Usuario de Instagram</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="Instagram"
+                    value={formData.Instagram}
+                    onIonChange={handleInputChange}
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Usuario de Twitter</IonLabel>
+                  <IonInput
+                    type="text"
+                    name="Twitter"
+                    value={formData.Twitter}
+                    onIonChange={handleInputChange}
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Peso*</IonLabel>
+                  <IonInput
+                    type="number"
+                    name="Weight"
+                    value={formData.Weight}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Estatura*</IonLabel>
+                  <IonInput
+                    type="number"
+                    name="Height"
+                    value={formData.Height}
+                    onIonChange={handleInputChange}
+                    required
+                  />
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Contraseña*</IonLabel>
+                  <IonInput
+                    type="password"
+                    name="Password"
+                    value={formData.Password}
+                    onIonChange={handleInputChange}
+                    required
+                    minlength={8}
+                  />
+                  {formData.Password.length < 8 && (
                     <IonText color="danger" >La contraseña debe tener al menos 8 caracteres.</IonText>
                   )}
-
+                </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Confirmar contraseña*</IonLabel>
+                  <IonInput
+                    type="password"
+                    name="Password_confirmation"
+                    value={formData.Password_confirmation}
+                    onIonChange={handleInputChange}
+                    required
+                    minlength={8}
+                  />
+                  {formData.Password_confirmation !== formData.Password && (
+                    <IonText color="danger">Las contraseñas no coinciden.</IonText>
+                  )}
                 </IonItem>
               </form>
             </IonCardContent>

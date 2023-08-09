@@ -45,7 +45,7 @@ const ModalSignUp: React.FC = () => {
   const { name, value } = event.target;
   // Actualizar el estado del formulario (formData) con los nuevos valores
   setFormData({ ...formData, [name]: value, });
-};
+  };
 
 const [ShowSuccessToast, setShowSuccessToast] = useState(false);
 const [ShowErrorToast, setShowErrorToast] = useState(false);
@@ -144,6 +144,7 @@ const [ShowErrorToast, setShowErrorToast] = useState(false);
                     name="PhoneNumber"
                     value={formData.PhoneNumber}
                     onIonChange={handleInputChange}
+                    required
                   />
                 </IonItem>
                 <IonItem>

@@ -32,7 +32,6 @@ const ReactProSidebar: React.FC<ContainerProps> = () => {
           <Link to="/users" className='link'><MenuItem icon={<IonIcon icon={people} className='MenuItem-icon' />} className="MenuItem">Usuarios</MenuItem></Link>
   
           <hr className="sidebar-divider" />
-          <Link to="/profile" className='link'><MenuItem icon={<IonIcon icon={person} className='MenuItem-icon' />} className="MenuItem">Perfil</MenuItem></Link>
           <Link to="/home" className='link'><MenuItem icon={<IonIcon icon={logOutOutline} className='MenuItem-icon' />} className="MenuItem"> Cerrar Sesion </MenuItem></Link>
         </Menu>
         <br/>

@@ -109,7 +109,7 @@ useEffect(() => {
                   <IonCard>
                     <div className="card-container-center">
                       <IonIcon icon={briefcaseOutline} />
-                      <Link to="/database" > <img alt="yellow" src={yellow} /> </Link>
+                      <Link to="/users" > <img alt="yellow" src={yellow} /> </Link>
                     </div>
                     <IonCardHeader>
                       <IonCardTitle>Empleados</IonCardTitle>
@@ -137,7 +137,7 @@ useEffect(() => {
                   <IonCard>
                     <div className="card-container-center">
                       <IonIcon icon={serverOutline} />
-                      <Link to="/profile" > <img alt="red" src={red} /> </Link>
+                      <Link to="/database" > <img alt="red" src={red} /> </Link>
                     </div>
                     <IonCardHeader>
                       <IonCardTitle>Backups</IonCardTitle>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('Backup', function (Blueprint $table) {
             $table->id('BackupID');
             $table->dateTime('Date');
+            $table->string('Name', 150);
             $table->bigInteger('UserID');
 
             $table->foreign('UserID')->references('id')->on('Users.Users');

@@ -302,6 +302,28 @@ return new class extends Migration
             WHERE ActivityID = @ActivityID
         END';
 
+        $insertBackup = "CREATE PROCEDURE sp_insertBackup
+        @UserID INT,
+        @Name VARCHAR(150)
+        AS
+        BEGIN
+            DECLARE @lastBackupID INT
+        
+            INSERT INTO [dbo].[Backup] (Date, Name, UserID)
+            VALUES (GETDATE(), @Name, @UserID)
+        
+            SET @lastBackupID = SCOPE_IDENTITY()
+        
+            DECLARE @backupName VARCHAR(100)
+            SET @backupName = 'c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @lastBackupID) + '.bak'
+        
+            BACKUP DATABASE BeArt 
+            TO DISK = @backupName
+            WITH NOFORMAT,
+            INIT,
+            NAME = @Name
+        END";
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($listUsers);
@@ -319,6 +341,7 @@ return new class extends Migration
         DB::statement($listActivities);
         DB::statement($showActivity);
         DB::statement($updateActivity);
+        DB::statement($insertBackup);
     }
 
     /**
@@ -343,5 +366,6 @@ return new class extends Migration
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listActivities;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_showActivity;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateActivity;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_insertBackup;');
     }
 };

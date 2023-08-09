@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\MuscleGroupController;
 use App\Http\Controllers\Api\AddictionController;
 use App\Http\Controllers\Api\PhysicalActivityController;
+use App\Http\Controllers\Api\BackupController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -46,6 +47,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get("showActivity/{activityId}", [PhysicalActivityController::class, 'showActivity']);
     Route::put("updateActivity/{activityId}", [PhysicalActivityController::class, 'updateActivity']);
     Route::delete("deleteActivity/{activityId}", [PhysicalActivityController::class, 'deleteActivity']);
+
+    //protected backup routes
+    Route::post("createBackup", [BackupController::class, 'createBackup']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

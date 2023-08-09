@@ -82,24 +82,28 @@ return new class extends Migration
         $listUsers = 'CREATE PROCEDURE sp_listUsers
         AS
         BEGIN
-            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleID, CountryID, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
+            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleName, CountryName, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
             FROM Users.Users AS U
             JOIN Users.Password AS P ON U.PasswordID = P.PasswordID
             JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
             JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
             JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
+            JOIN dbo.Role AS R ON U.RoleID = R.RoleID
+            JOIN Demographics.Country AS C ON D.CountryID = C.CountryID
         END';
 
         $showUser = 'CREATE PROCEDURE sp_showUser
             @id INT
         AS
         BEGIN
-            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleID, CountryID, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
+            SELECT id, FirstName, LastName1, LastName2, BirthDate, RoleName, CountryName, City, PhoneNumber, EmailAddress, FacebookName, Instagram, Twitter, Weight, Height, PasswordHash
             FROM Users.Users AS U
             JOIN Users.Password AS P ON U.PasswordID = P.PasswordID
             JOIN Users.DemographicInfo AS D ON U.DemographicInfoID = D.DemographicInfoID
             JOIN Users.ContactInfo AS CI ON U.ContactInfoID = CI.ContactInfoID
             JOIN Users.HealthInfo AS H ON U.HealthInfoID = H.HealthInfoID
+            JOIN dbo.Role AS R ON U.RoleID = R.RoleID
+            JOIN Demographics.Country AS C ON D.CountryID = C.CountryID
         END';
 
         $updateUser = 'CREATE PROCEDURE sp_updateUser

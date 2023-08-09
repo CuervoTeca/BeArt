@@ -70,14 +70,14 @@ const Users: React.FC = () => {
     },
     {
       id: "topUsers",
-      name: 'Role ID',
-      selector: row => row.RoleID,
+      name: 'Rol',
+      selector: row => row.RoleName,
       sortable: true,
     },
     {
       id: "topUsers",
-      name: 'Country ID',
-      selector: row => row.CountryID,
+      name: 'País',
+      selector: row => row.CountryName,
       sortable: true,
     },
     {

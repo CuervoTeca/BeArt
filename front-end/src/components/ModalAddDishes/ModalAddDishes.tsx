@@ -29,14 +29,13 @@ const ModalAddDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
   try {
     const formData = {
       DishName: dishName,
-      NutritionFactsId: nutritionFactsId,
       Calories: calories,
       Fats: fats,
-      Collesterol: cholesterol, // Asegúrate de haber definido el estado para "cholesterol"
-      Sodium: sodium, // Asegúrate de haber definido el estado para "sodium"
-      Fiber: fiber, // Asegúrate de haber definido el estado para "fiber"
-      Carbs: carbs, // Asegúrate de haber definido el estado para "carbs"
-      Protein: protein, // Asegúrate de haber definido el estado para "protein"protein"
+      Collesterol: cholesterol,
+      Sodium: sodium,
+      Fiber: fiber,
+      Carbs: carbs,
+      Protein: protein
     };
     // Muestra los datos en la consola antes de enviar la solicitud a la API
     console.log('Datos del formulario:', formData);
@@ -78,10 +77,6 @@ const ModalAddDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
         <IonCard>
       
           <IonList>
-          <IonItem>
-          <IonLabel position="floating">ID platillo: </IonLabel>
-          <IonInput value={dishId} onIonChange={e => setDishName(e.detail.value!)} />
-        </IonItem>
           <IonItem>
           <IonLabel position="floating">Nombre del platillo:</IonLabel>
           <IonInput value={dishName} onIonChange={e => setDishName(e.detail.value!)} />

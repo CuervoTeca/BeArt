@@ -1,6 +1,6 @@
 import { IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonButton, IonPopover, IonIcon, IonContent } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, gameControllerOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
 import './Addictions.css'
@@ -32,34 +32,43 @@ const Addictions: React.FC = () => {
     }
   };
 
+  const [addictions, setDishes] = useState([]);
+  const [token, setToken] = useState('');
 
-const [data, setData] = useState([
-    {
-      AddictionId: 1,
-      AddcitionName: "VideoJuegos",
-      UnitId: 185,
-      UnitName: "Horas"
+  useEffect(() => {
+    // Obtén el token de autenticación (por ejemplo, desde localStorage)
+    const storedToken = localStorage.getItem('accessToken');
+    console.log(storedToken)
+    if (storedToken) {
+      setToken(storedToken);
     }
-  ]
-);
 
+    // Realiza la solicitud GET a la API con el token en la cabecera
+    axios.get('http://127.0.0.1:8000/api/listAddictions', {
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    })
+      .then(response => {
+        setDishes(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
+  }, [token]);
+  
   const columns =[
     {
       id: "topAddictions",
       name: 'Id',
-      selector: row => row.AddictionId,
+      selector: row => row.AddictionID,
       sortable: true,
     },
     {
       id: "topAddictions",
       name: 'Nombre de la adiccion',
-      selector: row => row.AddcitionName,
-      sortable: true,
-    },
-    {
-      id: "topAddictions",
-      name: 'Unidad ID',
-      selector: row => row.UnitId,
+      selector: row => row.AddictionName,
       sortable: true,
     },
     {
@@ -70,14 +79,14 @@ const [data, setData] = useState([
     },
     {
       cell: row => <>
-            <IonButton fill='clear' id={row.AddictionId + 'addiction'} onClick={() => openUpdateModal(row.AddictionId)}>
+            <IonButton fill='clear' id={row.AddictionID + 'addiction'} onClick={() => openUpdateModal(row.AddictionID)}>
               <IonIcon icon={ellipsisVerticalOutline} /></IonButton>
-            <IonPopover trigger={row.AddictionId + "addiction"} triggerAction="click" className='IonPopover'>
+            <IonPopover trigger={row.AddictionID + "addiction"} triggerAction="click" className='IonPopover'>
                 <IonContent className='RowModal'>
                   <ModalUpdateAddictions addictionId={selectedAddictionId} />
                   {/* Resto de los elementos en el popover */}
                   {/* Botón para borrar */}
-               <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.AddictionId)}>
+               <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.AddictionID)}>
                  <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
               </IonPopover>
@@ -106,7 +115,7 @@ const [data, setData] = useState([
                   <IonCardContent>
                   <DataTable
                     columns = {columns}
-                    data = {data}
+                    data = {addictions.data}
                     pagination
                   />
                 <ModalAddAddictions addictionId={selectedAddictionId}/>

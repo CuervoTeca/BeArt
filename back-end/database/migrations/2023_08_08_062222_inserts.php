@@ -393,6 +393,34 @@ return new class extends Migration
             ('Chilaquiles rojos', 38),
             ('Birria', 39),
             ('Sope de frijol', 40);");
+
+        DB::statement("INSERT INTO [Health].[PhysicalActivity] (ActivityName, CaloriesBurnedPerHour, MuscleGroupID)
+        VALUES
+            ('Correr', 500, 6),
+            ('Levantamiento de Pesas', 300, 2),
+            ('Natación', 400, 8),
+            ('Flexiones de Pecho', 200, 1),
+            ('Sentadillas', 250, 6),
+            ('Caminar', 200, 6),
+            ('Ciclismo', 350, 7),
+            ('Zancadas', 280, 6),
+            ('Flexiones de Tríceps', 180, 5),
+            ('Press de Banca', 280, 1),
+            ('Remo', 320, 2),
+            ('Flexiones de Hombro', 220, 3),
+            ('Abdominales Cruzados', 150, 9),
+            ('Sentadillas Sumo', 270, 6),
+            ('Burpees', 400, 9),
+            ('Saltar la Cuerda', 300, 6),
+            ('Prensa de Piernas', 320, 6),
+            ('Dominadas', 250, 2),
+            ('Plancha', 180, 9),
+            ('Curl de Bíceps', 160, 4),
+            ('Levantamiento de Talones', 220, 14),
+            ('Extensiones de Cuádriceps', 240, 6),
+            ('Paseo en Bicicleta Estacionaria', 250, 7),
+            ('Fondos en Paralelas', 200, 5),
+            ('Press de Hombros', 260, 10);");
     }
 
     /**

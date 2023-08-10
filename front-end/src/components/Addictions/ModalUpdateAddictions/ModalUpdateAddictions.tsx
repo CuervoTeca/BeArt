@@ -9,7 +9,7 @@ const ModalUpdateAddictions: React.FC<{ addictionId: number | null }> = ({ addic
 
   var [formData, setFormData] = useState({
     AddictionName: '',
-    UnitName: ''
+    UnitID: ''
   });
 
   const handleInputChange = (event: any) => {
@@ -98,7 +98,7 @@ const ModalUpdateAddictions: React.FC<{ addictionId: number | null }> = ({ addic
 
               <IonItem>
                 <IonLabel position="floating">Nombre de la unidad</IonLabel>
-                <IonInput type="text" name="UnitName" value={formData.UnitName} onIonChange={handleInputChange} required />
+                <IonInput type="text" name="UnitName" value={formData.UnitID} onIonChange={handleInputChange} required />
               </IonItem>
 
               <IonButton expand="full" type="submit">Actualizar</IonButton>

@@ -10,8 +10,8 @@ import axios from 'axios';
 
 const Addictions: React.FC = () => {
   const [selectedAddictionId, setSelectedAddictionId] = useState<number | null>(null);
-  const openUpdateModal = (addictionId: number) => {
-    setSelectedAddictionId(addictionId);
+  const openUpdateModal = (AddictionID: number) => {
+    setSelectedAddictionId(AddictionID);
     // Abre el modal aquí si es necesario
   };
 
@@ -82,7 +82,7 @@ const Addictions: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton fill='clear' id={row.AddictionID + 'addiction'}>
+            <IonButton fill='clear' id={row.AddictionID + 'addiction'} onClick={() => openUpdateModal(row.AddictionID)}>
               <IonIcon icon={ellipsisVerticalOutline} /></IonButton>
             <IonPopover trigger={row.AddictionID + "addiction"} triggerAction="click" className='IonPopover'>
                 <IonContent className='RowModal'>

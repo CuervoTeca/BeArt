@@ -4,6 +4,9 @@ import React from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 
 import './DataBase.css'
+import ModalRestoreBack from '../../components/DataBase/ModalRestoreBack/ModalRestoreBack';
+import ModalResetBack from '../../components/DataBase/ModalResetBack/ModalResetBack';
+import ModalCreatetBack from '../../components/DataBase/ModalCreateBack/ModalCreateBack';
 
 const DataBase: React.FC = () => {
   return (
@@ -30,7 +33,7 @@ const DataBase: React.FC = () => {
                       sistema o dispositivo en un momento específico. Esto incluye todos los registros, tablas, configuraciones y otros elementos necesarios para restaurar
                       completamente el sistema a su estado original en caso de pérdida de datos, corrupción o fallo del sistema.
                       <hr></hr>
-                      <IonButton expand="block" color="success">Crear</IonButton>
+                      <ModalCreatetBack></ModalCreatetBack>
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
@@ -46,7 +49,7 @@ const DataBase: React.FC = () => {
                       una pérdida de datos o un problema grave. Al recuperar un respaldo, se devuelve el sistema a un estado anterior donde los
                       datos estaban intactos antes del evento problemático.
                       <hr></hr>
-                      <IonButton expand="block" color="primary">Recuperar</IonButton>
+                      <ModalRestoreBack></ModalRestoreBack>
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
@@ -68,8 +71,8 @@ const DataBase: React.FC = () => {
                       sin afectar la estructura de la base de datos en sí.
                       Esto es útil en situaciones en las que se necesite limpiar los datos almacenados y comenzar desde cero sin tener que borrar toda la base de datos.
                       <hr></hr>
-                      <IonButton expand="block" color="danger">Reiniciar</IonButton>
-                    </IonCardContent>
+                      <ModalResetBack></ModalResetBack>
+                     </IonCardContent>
                   </IonCard>
                 </IonCol>
                 </IonRow>

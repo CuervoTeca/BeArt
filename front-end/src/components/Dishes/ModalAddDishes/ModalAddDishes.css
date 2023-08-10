@@ -8,11 +8,21 @@
 }
 /* Agrega bordes redondeados al modal */
 ion-modal {
-    --border-radius: 0px 0px 20px 20px;
     --height:80%;
     --width:40%;
   }
  
+
+.element.style {
+    background: #0081f1;
+}
+
+  .custom-modal-content {
+    background-color: #ffcc00; /* Cambia este valor al color deseado */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
   /* Ajusta el padding interno del modal */
   .ion-modal .modal-wrapper {
     padding: 20px;
@@ -63,4 +73,3 @@ ion-modal {
     background-color: #eee; /* Color del track del scroll */
     border-radius: 4px; /* Bordes redondeados para el track */
   }
-  

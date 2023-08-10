@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
 import './PhysicalActivities.css'
-import ModalUpdatePhysicalActivities from '../../components/ModalUpdatePhysicalActivities/ModalUpdatePhysicalActivities';
-import ModalAddPhysicalActivities from '../../components/ModalAddPhysicalActivities/ModalAddPhysicalActivities';
+import ModalUpdatePhysicalActivities from '../../components/PhysicalActivities/ModalUpdatePhysicalActivities/ModalUpdatePhysicalActivities';
+import ModalAddPhysicalActivities from '../../components/PhysicalActivities/ModalAddPhysicalActivities/ModalAddPhysicalActivities';
 import axios from 'axios';
 
 const PhysicalActivities: React.FC = () => {
@@ -15,19 +15,20 @@ const PhysicalActivities: React.FC = () => {
     // Abre el modal aquí si es necesario
   };
 
-  const handleDelete = async (activityId: number) => {
+  const handleDelete = async (activityId: string) => {
     try {
-      // Envía la solicitud DELETE a la API para borrar el platillo por su ID
-      const response = await axios.delete(`URL_DE_TU_API/${activityId}`);
-      console.log('Respuesta de la API:', response.data);
-  
-      // Actualiza los datos en la vista (puedes recargar los datos desde la API o simplemente eliminar el elemento del estado)
-      // Por ejemplo, si estás usando estado para almacenar los datos:
-      const updatedData = data.filter(item => item.ActivityId !== activityId);
-      setData(updatedData);
+      const response = await axios.delete('http://127.0.0.1:8000/api/deleteActivity/' + activityId, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('bien') 
+     }
+
     } catch (error) {
-      console.error('Error al borrar la addición:', error);
-      console.log(activityId)
+      console.error('Error al registrar usuario:', error);
     }
   };
 
@@ -119,7 +120,7 @@ const PhysicalActivities: React.FC = () => {
                       data = {physicalActivities.data}
                       pagination
                     />
-                  <ModalAddPhysicalActivities activityId={selectedActivityId}></ModalAddPhysicalActivities>
+                  <ModalAddPhysicalActivities></ModalAddPhysicalActivities>
                   </IonCardContent>
                   </IonCard>
               </IonCol>

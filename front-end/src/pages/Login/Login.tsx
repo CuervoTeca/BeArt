@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonInput, IonButton, IonCol, IonRow, IonGrid, IonLoading, IonCard, IonCardContent} from '@ionic/react';
 import axios from 'axios';
 import './Login.css';
-import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
+import ModalSignUp from '../../components/Login/ModalSignUp/ModalSignUp';
 import { useHistory } from 'react-router-dom';
 import ToastsComponent from '../../components/ToastsComponentProps/ToastComponent';
-import ModalPassword from '../../components/ModalPassword/ModalPassword';
+import ModalPassword from '../../components/Login/ModalPassword/ModalPassword';
 import logo from '../../images/BeArtLogo.svg'
 
 const Login: React.FC = () => {

@@ -3,8 +3,8 @@ import { ellipsisVerticalOutline, trashOutline, restaurantOutline } from 'ionico
 import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
-import ModalUpdateDishes from '../../components/ModalUpdateDishes/ModalUpdateDishes';
-import ModalAddDishes from '../../components/ModalAddDishes/ModalAddDishes';
+import ModalUpdateDishes from '../../components/Dishes/ModalUpdateDishes/ModalUpdateDishes';
+import ModalAddDishes from '../../components/Dishes/ModalAddDishes/ModalAddDishes';
 import axios from 'axios';
 
 import './Dishes.css'
@@ -128,8 +128,6 @@ const Dishes: React.FC = () => {
               <IonPopover trigger={row.DishID + "dish"} triggerAction="click" className='IonPopover'>
                 <IonContent className='RowModal'>
                   <ModalUpdateDishes dishId={selectedDishId} />
-                  {/* Resto de los elementos en el popover */}
-                  {/* Botón para borrar */}
                <IonButton fill='clear' color="danger" onClick={() => handleButtonClick(row.DishID)}>
                  <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>

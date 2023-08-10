@@ -29,6 +29,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 setupIonicReact();
 
@@ -39,7 +40,7 @@ const App: React.FC = () => (
           <Login />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/" />
         </Route>
         <Route exact path="/dishes">
           <Dishes />
@@ -64,6 +65,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/">
+          <LandingPage />
         </Route>
     </IonReactRouter>
   </IonApp>

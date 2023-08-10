@@ -340,6 +340,32 @@ return new class extends Migration
                 (SELECT COUNT(*) FROM [dbo].[Backup]) AS TotalBackups;
         END';
 
+        $deleteBackup = "CREATE PROCEDURE sp_deleteBackup
+            @BackupID INT
+        AS
+        BEGIN
+            DELETE FROM [dbo].[Backup] WHERE BackupID = @BackupID
+            DECLARE @backupName VARCHAR(100) = 'DEL c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @BackupID) + '.bak'
+            -- Borra el archivo
+            EXEC xp_cmdshell @backupName
+        END";
+
+        $listBackups = "CREATE PROCEDURE sp_listBackups
+        AS
+        BEGIN
+            SELECT BackupID, Date, Name, CONCAT(FirstName, ' ', LastName1, ' ', LastName2) AS 'User'
+            FROM [dbo].[Backup] AS B
+            JOIN Users.Users AS U ON B.UserID = U.id
+        END";
+
+        $restoreBackup = "CREATE PROCEDURE sp_listBackups
+        AS
+        BEGIN
+            SELECT BackupID, Date, Name, CONCAT(FirstName, ' ', LastName1, ' ', LastName2) AS 'User'
+            FROM [dbo].[Backup] AS B
+            JOIN Users.Users AS U ON B.UserID = U.id
+        END";
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($listUsers);
@@ -359,6 +385,8 @@ return new class extends Migration
         DB::statement($updateActivity);
         DB::statement($insertBackup);
         DB::statement($getDashboardStats);
+        DB::statement($deleteBackup);
+        DB::statement($listBackups);
     }
 
     /**
@@ -385,5 +413,7 @@ return new class extends Migration
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_updateActivity;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_insertBackup;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_getDashboardStats;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_deleteBackup;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listBackups;');
     }
 };

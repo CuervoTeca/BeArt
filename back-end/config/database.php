@@ -93,6 +93,17 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'sqlsrv-master' => [
+            'driver' => 'mysql',
+            'host' => env('DB_TEMP_HOST', '127.0.0.1'),
+            'port' => env('DB_TEMP_PORT', '3306'),
+            'database' => env('DB_TEMP_DATABASE', 'temp_database'),
+            'username' => env('DB_TEMP_USERNAME', 'root'),
+            'password' => env('DB_TEMP_PASSWORD', ''),
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
     ],
 
     /*

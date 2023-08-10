@@ -156,7 +156,7 @@ const Users: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton id={row.id + "Users"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
+            <IonButton id={row.id + "Users"} fill='clear' onClick={() => openUpdateModal(row.id)}><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
             <IonPopover trigger={row.id + "Users"} triggerAction="click" className='IonPopover'>
                 <IonContent className="RowModal">
                   <ModalUpdateUsers id={selectedId}></ModalUpdateUsers>

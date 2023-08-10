@@ -101,6 +101,12 @@ const ModalUpdateUsers: React.FC<{ id: number | null }> = ({ id }) => {
 
           <IonList>
               <form onSubmit={handleSubmit}>
+
+              <IonItem>
+                <IonLabel position="floating" >Id del usuario:</IonLabel>
+                <IonInput value={id} readonly={true} />
+              </IonItem>
+
                 <IonItem>
                   <IonLabel position="floating">Nombre:</IonLabel>
                   <IonInput type="text" name="FirstName" value={formData.FirstName} onIonChange={handleInputChange} required />

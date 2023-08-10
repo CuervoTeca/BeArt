@@ -234,7 +234,7 @@ class UserController extends Controller
     public function deleteUser($userId){
         if (Auth::check()) {
             // User authenticated
-            $userId = Auth::id();
+            $actualUser = Auth::id();
 
             if ((User::where(["id" => $userId]))->exists()){
                 // if exists, it can be deleted

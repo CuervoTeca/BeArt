@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import ReactProSidebar from '../../components/ReactProSidebar/ReactProSidebar';
 import DataTable from 'react-data-table-component';
 import './Addictions.css'
-import ModalAddAddictions from '../../components/ModalAddAddictions/ModalAddAddictions';
-import ModalUpdateAddictions from '../../components/ModalUpdateAddictions/ModalUpdateAddictions';
+import ModalAddAddictions from '../../components/Addictions/ModalAddAddictions/ModalAddAddictions';
+import ModalUpdateAddictions from '../../components/Addictions/ModalUpdateAddictions/ModalUpdateAddictions';
 import axios from 'axios';
 
 const Addictions: React.FC = () => {
@@ -16,22 +16,22 @@ const Addictions: React.FC = () => {
   };
 
   // PARA ELIMINAR
-  const handleDelete = async (addictionId: number) => {
+  const handleButtonClick = async (AddictionID: string) => {
     try {
-      // Envía la solicitud DELETE a la API para borrar el platillo por su ID
-      const response = await axios.delete(`URL_DE_TU_API/${addictionId}`);
-      console.log('Respuesta de la API:', response.data);
-  
-      // Actualiza los datos en la vista (puedes recargar los datos desde la API o simplemente eliminar el elemento del estado)
-      // Por ejemplo, si estás usando estado para almacenar los datos:
-      const updatedData = data.filter(item => item.AddictionId !== addictionId);
-      setData(updatedData);
+      const response = await axios.delete('http://127.0.0.1:8000/api/deleteAddiction/' + AddictionID, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('bien') 
+     }
+
     } catch (error) {
-      console.error('Error al borrar la addición:', error);
-      console.log(addictionId)
+      console.error('Error al registrar usuario:', error);
     }
   };
-
   const [addictions, setDishes] = useState([]);
   const [token, setToken] = useState('');
 
@@ -79,17 +79,15 @@ const Addictions: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton fill='clear' id={row.AddictionID + 'addiction'} onClick={() => openUpdateModal(row.AddictionID)}>
+            <IonButton fill='clear' id={row.AddictionID + 'addiction'}>
               <IonIcon icon={ellipsisVerticalOutline} /></IonButton>
             <IonPopover trigger={row.AddictionID + "addiction"} triggerAction="click" className='IonPopover'>
                 <IonContent className='RowModal'>
                   <ModalUpdateAddictions addictionId={selectedAddictionId} />
-                  {/* Resto de los elementos en el popover */}
-                  {/* Botón para borrar */}
-               <IonButton fill='clear' color="danger" onClick={() => handleDelete(row.AddictionID)}>
+               <IonButton fill='clear' color="danger" onClick={() => handleButtonClick(row.AddictionID)}>
                  <IonIcon icon={trashOutline} /> Borrar</IonButton>
                 </IonContent>
-              </IonPopover>
+            </IonPopover>
                 </> ,
       allowOverflow: true,
       button: true,
@@ -118,7 +116,7 @@ const Addictions: React.FC = () => {
                     data = {addictions.data}
                     pagination
                   />
-                <ModalAddAddictions addictionId={selectedAddictionId}/>
+                <ModalAddAddictions/>
                   </IonCardContent>
                 </IonCard>
               </IonCol>

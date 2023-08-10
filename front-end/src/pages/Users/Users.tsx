@@ -6,13 +6,36 @@ import DataTable from 'react-data-table-component';
 import axios from 'axios';
 
 import './Users.css'
-import ModalUpdateUsers from '../../components/ModalUpdateUsers/ModalUpdateUsers';
-import ModalAddUsers from '../../components/ModalAddUsers/ModalAddUsers';
+import ModalUpdateUsers from '../../components/Users/ModalUpdateUsers/ModalUpdateUsers';
+import ModalAddUsers from '../../components/Users/ModalAddUsers/ModalAddUsers';
 
 const Users: React.FC = () => {
 
+  const [selectedId, setSelectedDishId] = useState<number | null>(null);
+  const openUpdateModal = (id: number) => {
+    setSelectedDishId(id);
+    // Abre el modal aquí si es necesario
+  };
+
   const [users, setDishes] = useState([]);
   const [token, setToken] = useState('');
+
+  const handleButtonClick = async (id: string) => {
+    try {
+      const response = await axios.delete('http://127.0.0.1:8000/api/deleteUser/' + id, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('bien') 
+     }
+
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+    }
+  };
 
   useEffect(() => {
     // Obtén el token de autenticación (por ejemplo, desde localStorage)
@@ -130,11 +153,11 @@ const Users: React.FC = () => {
     },
     {
       cell: row => <>
-            <IonButton id={row.ActivityId + "Users"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
-            <IonPopover trigger={row.ActivityId + "Users"} triggerAction="click" className='IonPopover'>
+            <IonButton id={row.id + "Users"} fill='clear'><IonIcon icon={ellipsisVerticalOutline}/></IonButton>
+            <IonPopover trigger={row.id + "Users"} triggerAction="click" className='IonPopover'>
                 <IonContent className="RowModal">
-                  <ModalUpdateUsers></ModalUpdateUsers>
-                  <IonButton id={row.ActivityId + "Users"} fill='clear' color="danger"><IonIcon icon={trashOutline}/> Borrar </IonButton>
+                  <ModalUpdateUsers id={selectedId}></ModalUpdateUsers>
+                  <IonButton id={row.id + "Users"} fill='clear' color="danger" onClick={() => handleButtonClick(row.id)} ><IonIcon icon={trashOutline}/> Borrar </IonButton>
                 </IonContent>
             </IonPopover>
       </> ,

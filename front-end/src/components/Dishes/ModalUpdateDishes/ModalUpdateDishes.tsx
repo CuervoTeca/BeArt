@@ -5,7 +5,6 @@ import axios from 'axios';
 import { close } from 'ionicons/icons';
 
 const ModalUpdateDishes: React.FC<{ dishId: number | null }> = ({ dishId }) => {
-  const [DishId, setIdAddicton] = useState('');
   const [showModal, setShowModal] = useState(false);
 
   var [formData, setFormData] = useState({

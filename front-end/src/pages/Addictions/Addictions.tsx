@@ -28,6 +28,9 @@ const Addictions: React.FC = () => {
         console.log('bien') 
      }
 
+          //Actualizar cambios
+          window.location.reload()
+
     } catch (error) {
       console.error('Error al registrar usuario:', error);
     }

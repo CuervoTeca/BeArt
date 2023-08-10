@@ -52,6 +52,9 @@ const ModalUpdateAddictions: React.FC<{ addictionId: number | null }> = ({ addic
         if (response.status === 200) {
           closeModal(); // Cerrar el modal después de un registro exitoso
         }
+
+             //Actualizar cambios
+     window.location.reload()
       } catch (error) {
         console.error('Error al registrar usuario:', error);
       }

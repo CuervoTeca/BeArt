@@ -1,7 +1,9 @@
-import { IonButton, IonModal, IonContent, IonLabel, IonItem, IonInput, IonList } from '@ionic/react';
+import { IonButton, IonModal, IonContent, IonLabel, IonItem, IonInput, IonList, IonHeader, IonToolbar, IonIcon, IonTitle, IonButtons } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import './ModalAddPhysicalActivities.css'
 import axios from 'axios';
+import { close } from 'ionicons/icons';
+
 
 const ModalAddPhysicalActivities:React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -69,6 +71,19 @@ const ModalAddPhysicalActivities:React.FC = () => {
     </IonButton>
 
     <IonModal isOpen={showModal} onDidDismiss={closeModal}>
+
+    <IonHeader>
+          <IonToolbar>
+            <IonTitle size='large'>
+              <div className="Close">
+                Agregar Actividad fisica
+                <IonButtons slot="end" onClick={closeModal}>
+                  <IonIcon slot="icon-only" icon={close} />
+                </IonButtons>
+              </div>
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonContent>
         <IonList>
                 <form onSubmit={handleSubmit}>

@@ -27,7 +27,7 @@ const ModalRestoreBack: React.FC = () => {
             }
         
             // Realiza la solicitud GET a la API con el token en la cabecera
-            axios.get('http://127.0.0.1:8000/api/listAddictions', {
+            axios.get('http://127.0.0.1:8000/api/listBackups', {
               headers: {
                 Authorization: `Bearer ${storedToken}`
               }
@@ -37,9 +37,29 @@ const ModalRestoreBack: React.FC = () => {
                 console.log(response.data)
               })
               .catch(error => {
-                console.error('Error al obtener los datos:', error);
+                console.error('Error al obtener list backups:', error);
               });
           }, [token]);
+
+          const handleButtonClick = async (db: string) => {
+            try {
+              const response = await axios.delete('http://127.0.0.1:8000/api/deleteBackup/' + db , {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+              });
+        
+              if (response.status === 200) {
+                console.log('bien') 
+             }
+        
+                  //Actualizar cambios
+             window.location.reload()
+        
+            } catch (error) {
+              console.error('Error al eliminar respaldo:', error);
+            }
+          };
 
     const columns =[
         {
@@ -63,19 +83,23 @@ const ModalRestoreBack: React.FC = () => {
         {
             id: "topAddictions",
             name: 'Usuario',
-            selector: row => row.UserID,
+            selector: row => row.User,
             sortable: true,
           },
         {
           cell: row => <>
                 <IonButton fill='clear' id={row.BackupID + 'addiction'} >
-                  <IonIcon icon={syncOutline} /></IonButton>
-                <IonPopover trigger={row.AddictionID + "addiction"} triggerAction="click" className='IonPopover'>
-                    <IonContent className='RowModal'>
-                   <IonButton fill='clear' color="danger">
-                     <IonIcon icon={trashOutline} /> Borrar</IonButton>
-                    </IonContent>
-                </IonPopover>
+                  <IonIcon icon={syncOutline} />
+                </IonButton>
+                    </> ,
+          allowOverflow: true,
+          button: true,
+        },
+        {
+          cell: row => <>
+                <IonButton fill='clear' color="danger" id={row.BackupID + 'addiction'} onClick={() => handleButtonClick(row.BackupID)} >
+                  <IonIcon icon={trashOutline} />
+                </IonButton>
                     </> ,
           allowOverflow: true,
           button: true,

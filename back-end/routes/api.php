@@ -53,6 +53,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post("createBackup", [BackupController::class, 'createBackup']);
     Route::get("listBackups", [BackupController::class, 'listBackups']);
     Route::delete("deleteBackup/{backupId}", [BackupController::class, 'deleteBackup']);
+    Route::get("restoreBackup/{backupId}", [BackupController::class, 'restoreBackup']);
+    Route::get("resetDatabase", [BackupController::class, 'resetDatabase']);
 
     //protected dashboard routes
     Route::get("getDashboardStats", [DashboardController::class, 'getDashboardStats']);

@@ -49,6 +49,56 @@ class BackupController extends Controller
         }
     }
 
+    public function restoreBackup($backupId){
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+
+            DB::disconnect('sqlsrv');
+            DB::setDefaultConnection('sqlsrv-master');
+
+            DB::raw("ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+            RESTORE DATABASE BeArt
+            FROM DISK = 'c:\backups\BeArtBackup".strval($backupId).".bak'
+            WITH REPLACE,
+            NOUNLOAD
+            ALTER DATABASE BeArt SET MULTI_USER;");
+
+            DB::disconnect('sqlsrv-master');
+            DB::reconnect('sqlsrv');
+    
+            return response()->json([
+                "status" => 200,
+                "message" => "Backups restored"
+            ], 200);
+        }
+    }
+
+    public function resetDatabase($backupId){
+        if (Auth::check()) {
+            // User authenticated
+            $userId = Auth::id();
+
+            DB::disconnect('sqlsrv');
+            DB::setDefaultConnection('sqlsrv-master');
+
+            DB::raw("ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+            RESTORE DATABASE BeArt
+            FROM DISK = 'c:\backups\BeArtBackupOriginal.bak'
+            WITH REPLACE,
+            NOUNLOAD
+            ALTER DATABASE BeArt SET MULTI_USER;");
+
+            DB::disconnect('sqlsrv-master');
+            DB::reconnect('sqlsrv');
+    
+            return response()->json([
+                "status" => 200,
+                "message" => "Database reset"
+            ], 200);
+        }
+    }
+
     public function deleteBackup($backupId){
         if (Auth::check()) {
             // User authenticated

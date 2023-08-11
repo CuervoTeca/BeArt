@@ -358,12 +358,18 @@ return new class extends Migration
             JOIN Users.Users AS U ON B.UserID = U.id
         END";
 
-        $restoreBackup = "CREATE PROCEDURE sp_listBackups
+        $restoreBackup = "CREATE PROCEDURE sp_restoreBackup
+            @BackupID INT
         AS
         BEGIN
-            SELECT BackupID, Date, Name, CONCAT(FirstName, ' ', LastName1, ' ', LastName2) AS 'User'
-            FROM [dbo].[Backup] AS B
-            JOIN Users.Users AS U ON B.UserID = U.id
+            ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+            DECLARE @backupName VARCHAR(100)
+            SET @backupName = 'c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @BackupID) + '.bak'
+            RESTORE DATABASE BeArt
+            FROM DISK = @backupName
+            WITH REPLACE,
+            NOUNLOAD
+            ALTER DATABASE BeArt SET MULTI_USER;
         END";
 
         DB::statement($insertUser);
@@ -387,6 +393,7 @@ return new class extends Migration
         DB::statement($getDashboardStats);
         DB::statement($deleteBackup);
         DB::statement($listBackups);
+        DB::statement($restoreBackup);
     }
 
     /**
@@ -415,5 +422,6 @@ return new class extends Migration
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_getDashboardStats;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_deleteBackup;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listBackups;');
+        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_restoreBackup;');
     }
 };

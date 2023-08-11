@@ -74,7 +74,7 @@ class BackupController extends Controller
         }
     }
 
-    public function resetDatabase($backupId){
+    public function resetDatabase(){
         if (Auth::check()) {
             // User authenticated
             $userId = Auth::id();

@@ -426,6 +426,31 @@ return new class extends Migration
 
             DB::statement("EXEC sp_insertUser 'Admin', 'Be', 'Art', '2002-08-14', 'Tijuana', 42, '6641555429', 'admin@beart.com', 'BeArt', 'be_art', '@BeArt', 0.0, 0.0, '$hash'");
 
+            DB::statement("CREATE ROLE Dueno;
+            CREATE ROLE AdminBD;
+            CREATE ROLE AdminRegistros;
+        
+            CREATE LOGIN OwnerBA WITH PASSWORD = '789', DEFAULT_DATABASE=[Master];
+            CREATE LOGIN AdminBDBA WITH PASSWORD = '456', DEFAULT_DATABASE=[Master];
+            CREATE LOGIN AdminRegistrosBA WITH PASSWORD = '123', DEFAULT_DATABASE=[Master];
+        
+            CREATE USER BeartDueno FOR LOGIN OwnerBA;
+            CREATE USER BeartAdminBD FOR LOGIN AdminBDBA;
+            CREATE USER BeartAdminRegistros FOR LOGIN AdminRegistrosBA;
+        
+        
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO BeartDueno;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Demographics TO BeartDueno;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Health TO BeartDueno;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Social TO BeartDueno;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::Users TO BeartDueno;
+        
+            GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO BeartAdminBD;
+        
+            GRANT SELECT ON SCHEMA::Demographics TO BeartAdminRegistros;
+            GRANT SELECT ON SCHEMA::Health TO BeartAdminRegistros;
+            GRANT SELECT ON SCHEMA::Social TO BeartAdminRegistros;
+            GRANT SELECT ON SCHEMA::Users TO BeartAdminRegistros;");
     }
 
     /**

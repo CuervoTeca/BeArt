@@ -21,6 +21,7 @@ const ModalUpdateUsers: React.FC<{ id: number | null }> = ({ id }) => {
     BirthDate: "",
     City: "",
     CountryID: 1,
+    RoleID: 1,
     PhoneNumber: "",
     EmailAddress: "",
     FacebookName: "",

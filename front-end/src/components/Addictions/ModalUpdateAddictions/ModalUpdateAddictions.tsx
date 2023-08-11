@@ -97,8 +97,8 @@ const ModalUpdateAddictions: React.FC<{ addictionId: number | null }> = ({ addic
               </IonItem>
 
               <IonItem>
-                <IonLabel position="floating">Nombre de la unidad</IonLabel>
-                <IonInput type="text" name="UnitName" value={formData.UnitID} onIonChange={handleInputChange} required />
+                <IonLabel position="floating">ID de la unidad</IonLabel>
+                <IonInput type="number" name="UnitID" value={formData.UnitID} onIonChange={handleInputChange} required />
               </IonItem>
 
               <IonButton expand="full" type="submit">Actualizar</IonButton>

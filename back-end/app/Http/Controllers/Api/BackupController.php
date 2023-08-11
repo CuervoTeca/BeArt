@@ -51,28 +51,29 @@ class BackupController extends Controller
 
     public function restoreBackup($backupId){
         if (Auth::check()) {
-            // User authenticated
-            $userId = Auth::id();
 
-            DB::disconnect('sqlsrv');
-            DB::setDefaultConnection('sqlsrv-master');
-
-            DB::raw("ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-            RESTORE DATABASE BeArt
-            FROM DISK = 'c:\backups\BeArtBackup".strval($backupId).".bak'
-            WITH REPLACE,
-            NOUNLOAD
-            ALTER DATABASE BeArt SET MULTI_USER;");
-
-            DB::disconnect('sqlsrv-master');
-            DB::reconnect('sqlsrv');
+        // Ejecutar la consulta SQL para restaurar la copia de seguridad
+        try {
+            DB::statement("USE master;
     
-            return response()->json([
-                "status" => 200,
-                "message" => "Backups restored"
-            ], 200);
+            ALTER DATABASE BeArt
+            SET SINGLE_USER
+            WITH ROLLBACK IMMEDIATE;
+
+            RESTORE DATABASE BeArt
+            FROM DISK = 'c:\backups\BeArtBackup1.bak'
+            WITH REPLACE, RECOVERY;
+
+            ALTER DATABASE BeArt
+            SET MULTI_USER;
+            
+            ");
+            return response()->json(['message' => 'Copia de seguridad restaurada con éxito']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al restaurar la copia de seguridad: ' . $e->getMessage()], 500);
         }
-    }
+            }
+        }
 
     public function resetDatabase(){
         if (Auth::check()) {

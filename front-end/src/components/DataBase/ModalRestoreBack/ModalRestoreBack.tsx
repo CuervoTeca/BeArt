@@ -61,6 +61,26 @@ const ModalRestoreBack: React.FC = () => {
             }
           };
 
+          const handleButtonClickRestore = async (db: string) => {
+            try {
+              const response = await axios.get('http://127.0.0.1:8000/api/restoreBackup/' + db, {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+              });
+        
+              if (response.status === 200) {
+                console.log('bien') 
+             }
+        
+                  //Actualizar cambios
+             window.location.reload()
+        
+            } catch (error) {
+              console.error('Error al eliminar respaldo:', error);
+            }
+          };
+
     const columns =[
         {
           id: "topAddictions",
@@ -88,7 +108,7 @@ const ModalRestoreBack: React.FC = () => {
           },
         {
           cell: row => <>
-                <IonButton fill='clear' id={row.BackupID + 'addiction'} >
+                <IonButton fill='clear' id={row.BackupID + 'addiction'} onClick={() => handleButtonClickRestore(row.BackupID)} > 
                   <IonIcon icon={syncOutline} />
                 </IonButton>
                     </> ,

@@ -426,17 +426,35 @@ return new class extends Migration
 
             DB::statement("EXEC sp_insertUser 'Admin', 'Be', 'Art', '2002-08-14', 'Tijuana', 42, '6641555429', 'admin@beart.com', 'BeArt', 'be_art', '@BeArt', 0.0, 0.0, '$hash'");
 
-            DB::statement("CREATE ROLE Dueno;
+            DB::statement("
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'Dueno' AND type_desc = 'DATABASE_ROLE')
+            CREATE ROLE Dueno;
+        
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'AdminBD' AND type_desc = 'DATABASE_ROLE')
             CREATE ROLE AdminBD;
+        
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'AdminRegistros' AND type_desc = 'DATABASE_ROLE')
             CREATE ROLE AdminRegistros;
         
+        
+            IF NOT EXISTS (SELECT * FROM sys.syslogins WHERE name = 'OwnerBA')
             CREATE LOGIN OwnerBA WITH PASSWORD = '789', DEFAULT_DATABASE=[Master];
+    
+            IF NOT EXISTS (SELECT * FROM sys.syslogins WHERE name = 'AdminBDBA')
             CREATE LOGIN AdminBDBA WITH PASSWORD = '456', DEFAULT_DATABASE=[Master];
+    
+            IF NOT EXISTS (SELECT * FROM sys.syslogins WHERE name = 'AdminRegistrosBA')
             CREATE LOGIN AdminRegistrosBA WITH PASSWORD = '123', DEFAULT_DATABASE=[Master];
         
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'BeartDueno' AND type_desc = 'SQL_USER')
             CREATE USER BeartDueno FOR LOGIN OwnerBA;
+
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'BeartAdminBD' AND type_desc = 'SQL_USER')
             CREATE USER BeartAdminBD FOR LOGIN AdminBDBA;
+
+            IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'BeartAdminRegistros' AND type_desc = 'SQL_USER')
             CREATE USER BeartAdminRegistros FOR LOGIN AdminRegistrosBA;
+
         
         
             GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO BeartDueno;

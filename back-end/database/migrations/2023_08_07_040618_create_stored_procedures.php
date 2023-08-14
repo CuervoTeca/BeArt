@@ -380,6 +380,24 @@ return new class extends Migration
             ')
         END";
 
+        $resetDatabase = "IF OBJECT_ID('sp_resetDatabase', 'P') IS NULL
+        BEGIN
+            EXEC('
+            CREATE PROCEDURE sp_resetDatabase
+            AS
+            BEGIN
+                ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+        
+                RESTORE DATABASE BeArt
+                FROM DISK = ''c:\backups\BeArtBackupOriginal.bak''
+                WITH REPLACE,
+                NOUNLOAD;
+                
+                ALTER DATABASE BeArt SET MULTI_USER;
+            END
+            ')
+        END";
+
         DB::statement($insertUser);
         DB::statement($getUserProfile);
         DB::statement($listUsers);
@@ -401,8 +419,10 @@ return new class extends Migration
         DB::statement($getDashboardStats);
         DB::statement($deleteBackup);
         DB::statement($listBackups);
-        $querySPMaster = DB::connection('sqlsrv-master')->getPdo()->prepare($restoreBackup);
-        $querySPMaster->execute();
+        $querySPMasterRestore = DB::connection('sqlsrv-master')->getPdo()->prepare($restoreBackup);
+        $querySPMasterRestore->execute();
+        $querySPMasterReset = DB::connection('sqlsrv-master')->getPdo()->prepare($resetDatabase);
+        $querySPMasterReset->execute();
     }
 
     /**

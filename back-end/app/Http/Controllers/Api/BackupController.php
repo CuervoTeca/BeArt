@@ -58,7 +58,6 @@ class BackupController extends Controller
 
         $query = DB::connection('sqlsrv-master')->getPdo()->prepare($sql);
 
-
         try {
    
                 $query->execute();
@@ -70,32 +69,30 @@ class BackupController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al restaurar la copia de seguridad: ' . $e->getMessage()], 500);
         }
-            }
         }
+    }
 
     public function resetDatabase(){
         if (Auth::check()) {
-            // User authenticated
-            $userId = Auth::id();
 
-            DB::disconnect('sqlsrv');
-            DB::setDefaultConnection('sqlsrv-master');
-
-            DB::raw("ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-            RESTORE DATABASE BeArt
-            FROM DISK = 'c:\backups\BeArtBackupOriginal.bak'
-            WITH REPLACE,
-            NOUNLOAD
-            ALTER DATABASE BeArt SET MULTI_USER;");
-
-            DB::disconnect('sqlsrv-master');
-            DB::reconnect('sqlsrv');
+            $procedureName = "sp_resetDatabase";
     
-            return response()->json([
-                "status" => 200,
-                "message" => "Database reset"
-            ], 200);
-        }
+            $sql = "EXEC $procedureName";
+    
+            $query = DB::connection('sqlsrv-master')->getPdo()->prepare($sql);
+    
+            try {
+       
+                    $query->execute();
+                    
+                    $query->execute();
+                    sleep(15);
+    
+                return response()->json(['message' => 'Base de datos reiniciada con éxito']);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Error al reiniciar la base de datos: ' . $e->getMessage()], 500);
+            }
+            }
     }
 
     public function deleteBackup($backupId){

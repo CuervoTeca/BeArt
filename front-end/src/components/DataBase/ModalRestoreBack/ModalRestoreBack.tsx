@@ -1,4 +1,4 @@
-import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonPopover, IonIcon, IonCardContent, IonCardHeader, IonButtons, IonLabel, IonCard } from '@ionic/react';
+import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonLoading, IonIcon, IonCardContent, IonCardHeader, IonButtons, IonLabel, IonCard } from '@ionic/react';
 import { ellipsisVerticalOutline, trashOutline, syncOutline } from 'ionicons/icons';
 import DataTable from 'react-data-table-component';
 import React, { useState, useEffect } from 'react';
@@ -11,6 +11,8 @@ const ModalRestoreBack: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [db, setDB] = useState([]);
     const [token, setToken] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Estado para controlar la pantalla de carga
+
 
     const openModal = () => {
         setShowModal(true);
@@ -65,6 +67,8 @@ const ModalRestoreBack: React.FC = () => {
           };
 
           const handleButtonClickRestore = async (db: string) => {
+            setIsLoading(true); // Ocultar pantalla de carga
+
             try {
               const response = await axios.get('http://127.0.0.1:8000/api/restoreBackup/' + db, {
                 headers: {
@@ -73,7 +77,8 @@ const ModalRestoreBack: React.FC = () => {
               });
         
               if (response.status === 200) {
-                console.log('bien') 
+                console.log('bien')
+                setIsLoading(false); // Ocultar pantalla de carga 
                 history.push('/login');
              }
         
@@ -81,6 +86,7 @@ const ModalRestoreBack: React.FC = () => {
              window.location.reload()
         
             } catch (error) {
+              setIsLoading(false); // Ocultar pantalla de carga
               console.error('Error al eliminar respaldo:', error);
             }
           };
@@ -164,6 +170,12 @@ const ModalRestoreBack: React.FC = () => {
           </div>
         </IonContent>
       </IonModal>
+
+      <IonLoading
+        isOpen={isLoading}
+        message={'Restaurando la Base de datos...'}
+        duration={10000}
+      />
     </>
 );
 };

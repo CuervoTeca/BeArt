@@ -4,8 +4,10 @@ import DataTable from 'react-data-table-component';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { close } from 'ionicons/icons';
+import { useHistory } from 'react-router';
 
 const ModalRestoreBack: React.FC = () => {
+  const history = useHistory(); // Obtiene la instancia de history para la navegación
     const [showModal, setShowModal] = useState(false);
     const [db, setDB] = useState([]);
     const [token, setToken] = useState('');
@@ -51,6 +53,7 @@ const ModalRestoreBack: React.FC = () => {
         
               if (response.status === 200) {
                 console.log('bien') 
+
              }
         
                   //Actualizar cambios
@@ -71,6 +74,7 @@ const ModalRestoreBack: React.FC = () => {
         
               if (response.status === 200) {
                 console.log('bien') 
+                history.push('/login');
              }
         
                   //Actualizar cambios

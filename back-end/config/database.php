@@ -95,11 +95,11 @@ return [
 
         'sqlsrv-master' => [
             'driver' => 'sqlsrv',
-            'host' => '192.168.100.9',
-            'port' => '1433',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '1433'),
             'database' => 'master',
-            'username' => 'sa',
-            'password' => 'contrasena',
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

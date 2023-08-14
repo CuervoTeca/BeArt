@@ -324,7 +324,7 @@ return new class extends Migration
             BACKUP DATABASE BeArt 
             TO DISK = @backupName
             WITH NOFORMAT,
-            INIT,
+            NOINIT,
             NAME = @Name
         END";
 
@@ -363,12 +363,15 @@ return new class extends Migration
         AS
         BEGIN
             ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
             DECLARE @backupName VARCHAR(100)
-            SET @backupName = 'c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @BackupID) + '.bak'
+            SET @backupName = 'c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @BackupID) + '.bak';
+
             RESTORE DATABASE BeArt
             FROM DISK = @backupName
             WITH REPLACE,
-            NOUNLOAD
+            NOUNLOAD;
+            
             ALTER DATABASE BeArt SET MULTI_USER;
         END";
 

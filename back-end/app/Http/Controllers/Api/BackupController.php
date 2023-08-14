@@ -49,25 +49,23 @@ class BackupController extends Controller
         }
     }
 
-    public function restoreBackup($backupId){
+    public function restoreBackup($BackupID){
         if (Auth::check()) {
 
-        // Ejecutar la consulta SQL para restaurar la copia de seguridad
+        $procedureName = "sp_restoreBackup";
+
+        $sql = "EXEC $procedureName $BackupID";
+
+        $query = DB::connection('sqlsrv-master')->getPdo()->prepare($sql);
+
+
         try {
-            DB::statement("USE master;
-    
-            ALTER DATABASE BeArt
-            SET SINGLE_USER
-            WITH ROLLBACK IMMEDIATE;
+   
+                $query->execute();
+                
+                $query->execute();
+                sleep(15);
 
-            RESTORE DATABASE BeArt
-            FROM DISK = 'c:\backups\BeArtBackup1.bak'
-            WITH REPLACE, RECOVERY;
-
-            ALTER DATABASE BeArt
-            SET MULTI_USER;
-            
-            ");
             return response()->json(['message' => 'Copia de seguridad restaurada con éxito']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al restaurar la copia de seguridad: ' . $e->getMessage()], 500);

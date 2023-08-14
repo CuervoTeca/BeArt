@@ -324,7 +324,7 @@ return new class extends Migration
             BACKUP DATABASE BeArt 
             TO DISK = @backupName
             WITH NOFORMAT,
-            NOINIT,
+            INIT,
             NAME = @Name
         END";
 
@@ -358,21 +358,26 @@ return new class extends Migration
             JOIN Users.Users AS U ON B.UserID = U.id
         END";
 
-        $restoreBackup = "CREATE PROCEDURE sp_restoreBackup
-            @BackupID INT
-        AS
+        $restoreBackup = "IF OBJECT_ID('sp_restoreBackup', 'P') IS NULL
         BEGIN
-            ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-
-            DECLARE @backupName VARCHAR(100)
-            SET @backupName = 'c:\backups\BeArtBackup' + CONVERT(NVARCHAR(150), @BackupID) + '.bak';
-
-            RESTORE DATABASE BeArt
-            FROM DISK = @backupName
-            WITH REPLACE,
-            NOUNLOAD;
-            
-            ALTER DATABASE BeArt SET MULTI_USER;
+            EXEC('
+            CREATE PROCEDURE sp_restoreBackup
+                @BackupID INT
+            AS
+            BEGIN
+                ALTER DATABASE BeArt SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+        
+                DECLARE @backupName VARCHAR(100)
+                SET @backupName = ''c:\backups\BeArtBackup'' + CONVERT(NVARCHAR(150), @BackupID) + ''.bak'';
+        
+                RESTORE DATABASE BeArt
+                FROM DISK = @backupName
+                WITH REPLACE,
+                NOUNLOAD;
+                
+                ALTER DATABASE BeArt SET MULTI_USER;
+            END
+            ')
         END";
 
         DB::statement($insertUser);
@@ -396,7 +401,8 @@ return new class extends Migration
         DB::statement($getDashboardStats);
         DB::statement($deleteBackup);
         DB::statement($listBackups);
-        DB::statement($restoreBackup);
+        $querySPMaster = DB::connection('sqlsrv-master')->getPdo()->prepare($restoreBackup);
+        $querySPMaster->execute();
     }
 
     /**
@@ -425,6 +431,5 @@ return new class extends Migration
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_getDashboardStats;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_deleteBackup;');
         DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_listBackups;');
-        DB::statement('DROP PROCEDURE IF EXISTS dbo.sp_restoreBackup;');
     }
 };

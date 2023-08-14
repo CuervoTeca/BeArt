@@ -28,7 +28,17 @@ BeArt App
 
 9. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
-10. php artisan serve
+10. Crear carpeta en disco c:, llamada backups
+
+11. Correr este comando en el SQLServer, master [
+   BACKUP DATABASE BeArt 
+   TO DISK = 'c:\backups\BeArtBackupOriginal.bak'
+   WITH NOFORMAT,
+   INIT,
+   NAME = 'Estado original'
+   ]
+
+12. php artisan serve
 
 
 ### ----------Frontend------------

@@ -72,7 +72,7 @@ const ModalResetBack: React.FC = () => {
       <IonLoading
         isOpen={isLoading}
         message={'Reiniciando la Base de datos...'}
-        duration={10000}
+        duration={150000}
       />
     </>
 );
